@@ -2,9 +2,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Club {
+    public String getName() {
+        return name;
+    }
+
     private String name;
+
+    public List<ConcertListener> getMembers() {
+        return members;
+    }
+
     private List<ConcertListener> members;
     private List<ConcertEvent> concertEvents;
+
+    public List<ConcertEvent> getConcertEvents() {
+        return concertEvents;
+    }
+
+    public void setConcertEvents(List<ConcertEvent> concertEvents) {
+        this.concertEvents = concertEvents;
+    }
 
     public Club(String nom, List<ConcertListener> members) {
         this.name = nom;
@@ -54,16 +71,20 @@ public class Club {
     }
 
     public void removeMember(Membre m){
-        if (this.members.contains(m))
-            this.members.remove(m);
+        this.members.remove(m);
     }
 
     public void addConcert(Concert concert){
+        ConcertEvent concertEvent = new ConcertEvent(this, concert);
+
         for(ConcertListener concertListener : this.members){
-            ConcertEvent concertEvent = new ConcertEvent(this, concert);
             concertListener.newConcertEvent(concertEvent);
-            this.concertEvents.add(concertEvent);
         }
+        this.concertEvents.add(concertEvent);
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

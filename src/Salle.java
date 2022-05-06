@@ -28,9 +28,6 @@ public class Salle {
 
     @Override
     public String toString() {
-        return "Salle{" +
-                "name='" + name + '\'' +
-                ", capacity=" + capacity +
-                '}';
+        return name;
     }
 }

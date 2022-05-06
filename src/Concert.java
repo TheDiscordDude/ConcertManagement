@@ -1,6 +1,6 @@
 public class Concert {
 
-    private String name;
+    private final String name;
     private String date;
     private double cost;
     private Salle salle;
@@ -38,11 +38,6 @@ public class Concert {
 
     @Override
     public String toString() {
-        return "ConcertEvent{" +
-                "name='" + name + '\'' +
-                ", date=" + date +
-                ", cost=" + cost +
-                ", salle=" + salle +
-                '}';
+        return name + " " + date + " " + salle ;
     }
 }
