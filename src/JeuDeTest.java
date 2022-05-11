@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class JeuDeTest {
@@ -13,9 +14,9 @@ public class JeuDeTest {
         b1.addMembre(m1);
         b1.addMembre(m2);
 
-        Concert concert = new Concert("concert Orelsan", "02/08/2022", 5.0, s1);
-        Concert concert2 = new Concert("concert Twenty one pilots", "08/08/2022", 15.0, s1);
-        Concert concert3 = new Concert("concert Eminem", "11/11/2022", 35.0, s1);
+        Concert concert = new Concert("concert Orelsan", Calendar.getInstance().getTime(), 5.0, s1);
+        Concert concert2 = new Concert("concert Twenty one pilots", Calendar.getInstance().getTime(), 15.0, s1);
+        Concert concert3 = new Concert("concert Eminem", Calendar.getInstance().getTime(), 35.0, s1);
 
         b1.addConcert(concert);
         b1.addConcert(concert2);

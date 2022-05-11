@@ -8,13 +8,10 @@ public class JDateField extends JFormattedTextField {
     public JDateField() {
         super();
         try{
-            MaskFormatter formatter = new MaskFormatter("##/##/####");
+            MaskFormatter formatter = new MaskFormatter("##/##/#### ##:##");
             formatter.setPlaceholder("#");
             DefaultFormatterFactory factory = new DefaultFormatterFactory(formatter);
             this.setFormatterFactory(factory);
-            //this.setFormatter(formatter);
-
-
         } catch (Exception e){
             e.printStackTrace();
         }

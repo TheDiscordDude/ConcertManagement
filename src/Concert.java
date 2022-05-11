@@ -1,14 +1,16 @@
 import Exceptions.SallePleineException;
 import Exceptions.SalleVideException;
 
+import java.util.Date;
+
 public class Concert {
 
     private final String name;
-    private String date;
+    private Date date;
     private double cost;
     private Salle salle;
 
-    public Concert(String name, String date, double cost, Salle salle) {
+    public Concert(String name, Date date, double cost, Salle salle) {
         this.name = name;
         this.date = date;
         this.cost = cost;
@@ -31,7 +33,7 @@ public class Concert {
         return name;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -41,6 +43,6 @@ public class Concert {
 
     @Override
     public String toString() {
-        return name + " " + date + " " + salle ;
+        return name + " " + salle ;
     }
 }

@@ -63,20 +63,23 @@ public class ClubIHM extends JFrame implements ActionListener {
                     this.clubs.toArray(),
                     this.clubs.toArray()[0]);
             for(Component component : container.getComponents()){
-                if(component instanceof ClubInfosIHM || component instanceof ClubCreateConcertEventIHM){
+                if(component instanceof ClubInfosIHM || component instanceof ConcertFormIHM){
                     container.remove(component);
-
-                    //break;
                 }
             }
             container.revalidate();
             container.repaint();
-
             container.add(new ClubInfosIHM(this.selectedClub), this.constraints);
-
         }
         else if(e.getSource().equals(this.createConcertButton)) {
-            container.add(new ClubCreateConcertEventIHM(this.selectedClub, this.salles));
+            ClubInfosIHM clubInfosIHM = null;
+            for(Component component : container.getComponents()){
+                if(component instanceof ClubInfosIHM){
+                    clubInfosIHM = (ClubInfosIHM) component;
+                    break;
+                }
+            }
+            container.add(new ConcertFormIHM(this.selectedClub, this.salles, clubInfosIHM));
             container.revalidate();
             container.repaint();
         }
