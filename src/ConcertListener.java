@@ -1,5 +1,5 @@
 public interface ConcertListener {
-    public void newConcertEvent(ConcertEvent concertEvent);
-    public void newTicket(ConcertEvent concert);
-    public void ticketRemoved(ConcertEvent concertEvent);
+    void newConcertEvent(ConcertEvent concertEvent);
+    void newTicket(ConcertEvent concert);
+    void ticketRemoved(ConcertEvent concertEvent);
 }

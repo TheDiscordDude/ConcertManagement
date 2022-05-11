@@ -1,3 +1,6 @@
+import Exceptions.SallePleineException;
+import Exceptions.SalleVideException;
+
 public class Concert {
 
     private final String name;
@@ -12,11 +15,11 @@ public class Concert {
         this.salle = salle;
     }
 
-    public void addReservation() throws SallePleineException{
+    public void addReservation() throws SallePleineException {
         this.salle.addReservation();
     }
 
-    public void annulerReservation() throws SalleVideException{
+    public void annulerReservation() throws SalleVideException {
         this.salle.annulerReservation();
     }
 

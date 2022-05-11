@@ -3,40 +3,39 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClubIHM extends JFrame implements ActionListener {
-    private JButton selectClub;
-    private JButton createConcert;
-    private List<Club> clubs;
+    private JButton selectClubButton;
+    private Club selectedClub;
+    private JButton createConcertButton;
+    private ArrayList<Club> clubs;
+    private ArrayList<Salle> salles;
     private GridBagConstraints constraints;
 
-    public ClubIHM(List<Club> clubs){
+    public ClubIHM(ArrayList<Club> clubs, ArrayList<Salle> salles){
         this.clubs = clubs;
+        this.salles = salles;
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.setSize(500, 500);
         this.setTitle("Club - Concert Management");
-        List<String> clubNames = new ArrayList<>();
-        for (Club c : clubs){
-            clubNames.add(c.getName());
-        }
 
         Container container=getContentPane();
         container.setLayout(new GridBagLayout());
         this.constraints = new GridBagConstraints();
 
         constraints.fill = GridBagConstraints.BOTH;
-        this.selectClub = new JButton("Déconnection un Club");
-        this.selectClub.addActionListener(this);
-        this.createConcert = new JButton("Organiser un concert");
-        this.createConcert.addActionListener(this);
-        container.add(selectClub, constraints);
-        container.add(createConcert, constraints);
+        this.selectClubButton = new JButton("Déconnection un Club");
+        this.selectClubButton.addActionListener(this);
+        this.createConcertButton = new JButton("Organiser un concert");
+        this.createConcertButton.addActionListener(this);
+
+        container.add(selectClubButton, constraints);
+        container.add(createConcertButton, constraints);
         constraints.gridwidth = GridBagConstraints.REMAINDER;
 
-        Club selectedClub = (Club) JOptionPane.showInputDialog(
+        this.selectedClub = (Club) JOptionPane.showInputDialog(
                 null,
                 "Quel Club voulez vous gérer ?",
                 "Choix club",
@@ -46,16 +45,16 @@ public class ClubIHM extends JFrame implements ActionListener {
                 clubs.toArray()[0]);
 
         constraints.gridy = 1;
-        ClubInfosIHM clubInfosIhm = new ClubInfosIHM(selectedClub);
+        ClubInfosIHM clubInfosIhm = new ClubInfosIHM(this.selectedClub);
         container.add(clubInfosIhm, constraints);
-        //this.setContentPane(clubInfosIhm);
         this.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == this.selectClub){
-            Club selectedClub = (Club) JOptionPane.showInputDialog(
+        Container container=getContentPane();
+        if(e.getSource().equals(this.selectClubButton)){
+            this.selectedClub = (Club) JOptionPane.showInputDialog(
                     null,
                     "Quel Club voulez vous gérer ?",
                     "Choix club",
@@ -63,24 +62,23 @@ public class ClubIHM extends JFrame implements ActionListener {
                     null,
                     this.clubs.toArray(),
                     this.clubs.toArray()[0]);
-            Container container=getContentPane();
             for(Component component : container.getComponents()){
-                if(component instanceof ClubInfosIHM || component instanceof ClubCreateConvertEventIHM){
-                    //component = new ClubInfosIHM(selectedClub);
-                    //container.revalidate();
-                    //container.repaint();
-
+                if(component instanceof ClubInfosIHM || component instanceof ClubCreateConcertEventIHM){
                     container.remove(component);
-                    container.revalidate();
-                    container.repaint();
-                    break;
+
+                    //break;
                 }
             }
+            container.revalidate();
+            container.repaint();
 
-            container.add(new ClubInfosIHM(selectedClub), this.constraints);
+            container.add(new ClubInfosIHM(this.selectedClub), this.constraints);
 
-        } else if (e.getSource() == this.createConcert){
-
+        }
+        else if(e.getSource().equals(this.createConcertButton)) {
+            container.add(new ClubCreateConcertEventIHM(this.selectedClub, this.salles));
+            container.revalidate();
+            container.repaint();
         }
     }
 }

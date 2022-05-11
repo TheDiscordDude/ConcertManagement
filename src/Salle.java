@@ -1,6 +1,9 @@
+import Exceptions.SallePleineException;
+import Exceptions.SalleVideException;
+
 public class Salle {
-    private String name;
-    private int capacity;
+    private final String name;
+    private final int capacity;
     private int reservedPlaces;
 
 
@@ -10,13 +13,13 @@ public class Salle {
         this.reservedPlaces = 0;
     }
 
-    public void addReservation() throws SallePleineException{
+    public void addReservation() throws SallePleineException {
         if(this.reservedPlaces == this.capacity)
             throw new SallePleineException("La salle : '" + this.name + "' est pleine");
         this.reservedPlaces += 1;
     }
 
-    public void annulerReservation() throws SalleVideException{
+    public void annulerReservation() throws SalleVideException {
         if(this.reservedPlaces == 0)
             throw new SalleVideException("La salle : '" + this.name + "' est vide");
         this.reservedPlaces -= 1;

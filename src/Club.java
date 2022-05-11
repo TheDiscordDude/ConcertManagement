@@ -1,3 +1,6 @@
+import Exceptions.SallePleineException;
+import Exceptions.SalleVideException;
+
 import java.util.ArrayList;
 import java.util.List;
 
