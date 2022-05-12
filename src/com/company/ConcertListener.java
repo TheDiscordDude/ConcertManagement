@@ -1,3 +1,5 @@
+package com.company;
+
 /**
  * Allows communication between the generator and the receptor of Concert
  */

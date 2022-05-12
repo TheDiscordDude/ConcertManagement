@@ -1,4 +1,10 @@
-import UI_Elements.JDateField;
+package com.company.club_ihm;
+
+import com.company.Concert;
+import com.company.Salle;
+import com.company.ui_elements.JDateField;
+import com.company.Club;
+import com.company.ConcertEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,7 +104,7 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
         }
 
         String dateString = this.dateField.getText();
-        Date date = null;
+        Date date ;
         try {
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             dateFormat.setLenient(false);

@@ -1,3 +1,5 @@
+package com.company;
+
 import java.util.EventObject;
 
 public class ConcertEvent extends EventObject  {

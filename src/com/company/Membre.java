@@ -1,3 +1,5 @@
+package com.company;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +41,9 @@ public class Membre implements ConcertListener {
 
     public void maj_concert(Concert concert,String order){
 
-        if(order=="add"){
+        if(order.equals("add") ){
             this.l_concert.add(concert);
-        } else if (order=="remove") {
+        } else if (order.equals("remove")) {
             if(this.l_concert.isEmpty()){
                 System .out.println("pas de concert");
             }else{

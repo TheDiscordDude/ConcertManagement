@@ -1,5 +1,7 @@
-import Exceptions.SallePleineException;
-import Exceptions.SalleVideException;
+package com.company;
+
+import com.company.exceptions.SallePleineException;
+import com.company.exceptions.SalleVideException;
 
 import java.util.ArrayList;
 import java.util.List;

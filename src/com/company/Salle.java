@@ -1,5 +1,7 @@
-import Exceptions.SallePleineException;
-import Exceptions.SalleVideException;
+package com.company;
+
+import com.company.exceptions.SalleVideException;
+import com.company.exceptions.SallePleineException;
 
 public class Salle {
     private final String name;

@@ -1,4 +1,9 @@
-import UI_Elements.JTitle;
+package com.company.club_ihm;
+
+import com.company.ConcertListener;
+import com.company.ui_elements.JTitle;
+import com.company.Club;
+import com.company.ConcertEvent;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

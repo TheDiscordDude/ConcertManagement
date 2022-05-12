@@ -1,3 +1,7 @@
+package com.company.club_ihm;
+
+import com.company.Concert;
+
 import javax.swing.*;
 import java.awt.*;
 
