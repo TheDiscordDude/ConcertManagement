@@ -110,14 +110,17 @@ public class ClubIHM extends JFrame implements ActionListener {
     }
 
     private void displayConcertForm(){
-        Container container = this.getContentPane();
-        ClubInfosIHM clubInfosIHM = null;
-        for(Component component : container.getComponents()){
-            if(component instanceof ClubInfosIHM){
-                clubInfosIHM = (ClubInfosIHM) component;
-                break;
+        if(this.selectedClub != null){
+            Container container = this.getContentPane();
+            ClubInfosIHM clubInfosIHM = null;
+            for(Component component : container.getComponents()){
+                if(component instanceof ClubInfosIHM){
+                    clubInfosIHM = (ClubInfosIHM) component;
+                    break;
+                }
             }
+            container.add(new ConcertFormIHM(this.selectedClub, this.salles, clubInfosIHM));
         }
-        container.add(new ConcertFormIHM(this.selectedClub, this.salles, clubInfosIHM));
+
     }
 }
