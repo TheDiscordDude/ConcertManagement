@@ -1,7 +1,8 @@
 package com.company.club_ihm;
 
 import com.company.Club;
-import com.company.Salle;
+import com.company.GestionnaireSalle;
+import com.company.Room;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,12 +17,12 @@ public class ClubIHM extends JFrame implements ActionListener {
     private JMenuItem createConcertMenu;
     private JButton connectButton;
     private ArrayList<Club> clubs;
-    private ArrayList<Salle> salles;
+    private GestionnaireSalle gestionnaire;
     private GridBagConstraints constraints;
 
-    public ClubIHM(ArrayList<Club> clubs, ArrayList<Salle> salles){
+    public ClubIHM(ArrayList<Club> clubs, GestionnaireSalle gestionnaire){
         this.clubs = clubs;
-        this.salles = salles;
+        this.gestionnaire = gestionnaire;
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -119,7 +120,7 @@ public class ClubIHM extends JFrame implements ActionListener {
                     break;
                 }
             }
-            container.add(new ConcertFormIHM(this.selectedClub, this.salles, clubInfosIHM));
+            container.add(new ConcertFormIHM(this.selectedClub, this.gestionnaire, clubInfosIHM));
         }
 
     }

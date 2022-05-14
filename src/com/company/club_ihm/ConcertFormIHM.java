@@ -1,10 +1,13 @@
 package com.company.club_ihm;
 
 import com.company.Concert;
-import com.company.Salle;
+import com.company.GestionnaireSalle;
+import com.company.Room;
+import com.company.events.RoomEvent;
+import com.company.exceptions.RoomTakenException;
 import com.company.ui_elements.JDateField;
 import com.company.Club;
-import com.company.ConcertEvent;
+import com.company.events.ConcertEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,8 +26,11 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
     private JTextField nameField;
     private JDateField dateField;
     private JTextField costField;
-    private JComboBox<Salle> roomField;
+    private JComboBox<Room> roomField;
+
+    private DefaultComboBoxModel<Room> comboBoxContent;
     private Club club;
+    private GestionnaireSalle gestionnaire;
     private ClubInfosIHM clubInfosIHM;
     private GridBagConstraints constraints = new GridBagConstraints();
 
@@ -34,11 +40,12 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
      * We need quite a lot of info, because when a concert is created,
      * an event must be sent to the club and the clubInfoIHM to update the display
      * @param club The club hosting the
-     * @param rooms The available rooms in which a concert can be held
+     * @param gestionnaire The manager that gives the rooms if they are not already reserved
      * @param clubInfosIHM The other panel to update when a concert is created
      */
-    public ConcertFormIHM(Club club, ArrayList<Salle> rooms, ClubInfosIHM clubInfosIHM){
+    public ConcertFormIHM(Club club, GestionnaireSalle gestionnaire, ClubInfosIHM clubInfosIHM){
         this.club = club;
+        this.gestionnaire = gestionnaire;
         this.clubInfosIHM = clubInfosIHM;
 
         this.setLayout(new GridBagLayout());
@@ -77,7 +84,11 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
         this.constraints.gridy ++;
         this.add(salleLabel, this.constraints);
 
-        this.roomField = new JComboBox<>(rooms.toArray(new Salle[0]));
+        this.comboBoxContent = new DefaultComboBoxModel<>();
+        this.comboBoxContent.addAll(this.gestionnaire.getRooms());
+
+        this.roomField = new JComboBox<>();
+        this.roomField.setModel(this.comboBoxContent);
         this.constraints.gridy ++;
         this.add(this.roomField, this.constraints);
 
@@ -126,9 +137,17 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
 
         double cost = Double.parseDouble(this.costField.getText());
 
-        Salle salle = (Salle) this.roomField.getSelectedItem();
+        Room room = (Room) this.roomField.getSelectedItem();
 
-        Concert newConcert = new Concert(concertName, date, cost, salle);
+        try {
+            this.gestionnaire.reserveRoom(new RoomEvent(this, room));
+        } catch (RoomTakenException ex) {
+            throw new RuntimeException(ex);
+        }
+        this.comboBoxContent.removeAllElements();
+        this.comboBoxContent.addAll(this.gestionnaire.getRooms());
+
+        Concert newConcert = new Concert(concertName, date, cost, room);
         this.club.addConcert(newConcert);
 
         this.clubInfosIHM.newConcertEvent(new ConcertEvent(this, newConcert));

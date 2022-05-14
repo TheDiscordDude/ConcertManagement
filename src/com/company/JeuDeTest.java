@@ -9,7 +9,7 @@ public class JeuDeTest {
         Membre m1 = new Membre("DASSEUX", "Damien", 4.0);
         Membre m2 = new Membre("MALACARNE", "Etienne", 10.0);
 
-        Salle s1 = new Salle("s1", 10);
+        Room s1 = new Room("s1", 10);
 
         Club b1 = new Club("PolyBot");
 

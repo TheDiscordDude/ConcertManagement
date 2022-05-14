@@ -1,4 +1,6 @@
-package com.company;
+package com.company.events;
+
+import com.company.Concert;
 
 import java.util.EventObject;
 

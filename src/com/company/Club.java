@@ -1,7 +1,9 @@
 package com.company;
 
-import com.company.exceptions.SallePleineException;
-import com.company.exceptions.SalleVideException;
+import com.company.events.ConcertEvent;
+import com.company.exceptions.FullRoomException;
+import com.company.exceptions.EmptyRoomException;
+import com.company.listeners.ConcertListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,7 @@ public class Club {
                     for(ConcertListener cl : this.members){
                         cl.newTicket(c);
                     }
-                } catch (SallePleineException e){
+                } catch (FullRoomException e){
                     System.out.println(e.getMessage());
                 }
                 break;
@@ -62,7 +64,7 @@ public class Club {
                     for(ConcertListener cl : this.members){
                         cl.ticketRemoved(c);
                     }
-                } catch (SalleVideException e){
+                } catch (EmptyRoomException e){
                     System.out.println(e.getMessage());
                 }
                 break;

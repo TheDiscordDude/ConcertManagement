@@ -1,7 +1,7 @@
 package com.company;
 
-import com.company.exceptions.SallePleineException;
-import com.company.exceptions.SalleVideException;
+import com.company.exceptions.FullRoomException;
+import com.company.exceptions.EmptyRoomException;
 
 import java.util.Date;
 
@@ -10,20 +10,20 @@ public class Concert {
     private final String name;
     private Date date;
     private double cost;
-    private Salle salle;
+    private Room salle;
 
-    public Concert(String name, Date date, double cost, Salle salle) {
+    public Concert(String name, Date date, double cost, Room salle) {
         this.name = name;
         this.date = date;
         this.cost = cost;
         this.salle = salle;
     }
 
-    public void addReservation() throws SallePleineException {
+    public void addReservation() throws FullRoomException {
         this.salle.addReservation();
     }
 
-    public void annulerReservation() throws SalleVideException {
+    public void annulerReservation() throws EmptyRoomException {
         this.salle.annulerReservation();
     }
 

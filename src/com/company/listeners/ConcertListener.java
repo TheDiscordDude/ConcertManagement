@@ -1,4 +1,6 @@
-package com.company;
+package com.company.listeners;
+
+import com.company.events.ConcertEvent;
 
 /**
  * Allows communication between the generator and the receptor of Concert
