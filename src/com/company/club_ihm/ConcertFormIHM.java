@@ -1,7 +1,7 @@
 package com.company.club_ihm;
 
 import com.company.Concert;
-import com.company.GestionnaireSalle;
+import com.company.RoomManager;
 import com.company.Room;
 import com.company.events.RoomEvent;
 import com.company.exceptions.RoomTakenException;
@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -30,7 +29,7 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
 
     private DefaultComboBoxModel<Room> comboBoxContent;
     private Club club;
-    private GestionnaireSalle gestionnaire;
+    private RoomManager gestionnaire;
     private ClubInfosIHM clubInfosIHM;
     private GridBagConstraints constraints = new GridBagConstraints();
 
@@ -43,7 +42,7 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
      * @param gestionnaire The manager that gives the rooms if they are not already reserved
      * @param clubInfosIHM The other panel to update when a concert is created
      */
-    public ConcertFormIHM(Club club, GestionnaireSalle gestionnaire, ClubInfosIHM clubInfosIHM){
+    public ConcertFormIHM(Club club, RoomManager gestionnaire, ClubInfosIHM clubInfosIHM){
         this.club = club;
         this.gestionnaire = gestionnaire;
         this.clubInfosIHM = clubInfosIHM;

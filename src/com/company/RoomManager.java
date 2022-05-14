@@ -6,11 +6,11 @@ import com.company.listeners.RoomListener;
 
 import java.util.ArrayList;
 
-public class GestionnaireSalle  implements RoomListener {
+public class RoomManager implements RoomListener {
     private ArrayList<Room> rooms;
     private ArrayList<Room> reservedRooms;
 
-    public GestionnaireSalle(ArrayList<Room> rooms) {
+    public RoomManager(ArrayList<Room> rooms) {
         this.rooms = rooms;
         this.reservedRooms = new ArrayList<>();
     }

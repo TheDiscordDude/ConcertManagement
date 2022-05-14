@@ -1,8 +1,7 @@
 package com.company.club_ihm;
 
 import com.company.Club;
-import com.company.GestionnaireSalle;
-import com.company.Room;
+import com.company.RoomManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,10 +16,10 @@ public class ClubIHM extends JFrame implements ActionListener {
     private JMenuItem createConcertMenu;
     private JButton connectButton;
     private ArrayList<Club> clubs;
-    private GestionnaireSalle gestionnaire;
+    private RoomManager gestionnaire;
     private GridBagConstraints constraints;
 
-    public ClubIHM(ArrayList<Club> clubs, GestionnaireSalle gestionnaire){
+    public ClubIHM(ArrayList<Club> clubs, RoomManager gestionnaire){
         this.clubs = clubs;
         this.gestionnaire = gestionnaire;
 
