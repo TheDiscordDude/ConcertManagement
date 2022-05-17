@@ -90,6 +90,7 @@ public class Club {
         this.concertEvents.add(concertEvent);
     }
 
+
     @Override
     public String toString() {
         return name;

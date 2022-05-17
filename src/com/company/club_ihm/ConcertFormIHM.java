@@ -42,6 +42,7 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
      * @param gestionnaire The manager that gives the rooms if they are not already reserved
      * @param clubInfosIHM The other panel to update when a concert is created
      */
+
     public ConcertFormIHM(Club club, RoomManager gestionnaire, ClubInfosIHM clubInfosIHM){
         this.club = club;
         this.gestionnaire = gestionnaire;
