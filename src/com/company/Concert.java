@@ -43,6 +43,7 @@ public class Concert {
         return cost;
     }
 
+
     @Override
     public String toString() {
         return name + " " + salle ;
