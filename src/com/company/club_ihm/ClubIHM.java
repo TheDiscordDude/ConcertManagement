@@ -2,6 +2,8 @@ package com.company.club_ihm;
 
 import com.company.Club;
 import com.company.RoomManager;
+import com.company.events.ConcertEvent;
+import com.company.listeners.ConcertListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 // todo : be able to  create a Club / Room
-public class ClubIHM extends JFrame implements ActionListener {
+public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
     private JMenuItem disconnectMenu;
     private Club selectedClub;
     private JMenuItem createConcertMenu;
@@ -112,15 +114,34 @@ public class ClubIHM extends JFrame implements ActionListener {
     private void displayConcertForm(){
         if(this.selectedClub != null){
             Container container = this.getContentPane();
-            ClubInfosIHM clubInfosIHM = null;
-            for(Component component : container.getComponents()){
-                if(component instanceof ClubInfosIHM){
-                    clubInfosIHM = (ClubInfosIHM) component;
-                    break;
-                }
-            }
-            container.add(new ConcertFormIHM(this.selectedClub, this.gestionnaire, clubInfosIHM));
+            container.add(new ConcertFormIHM(this.selectedClub, this.gestionnaire));
         }
+    }
 
+    @Override
+    public void newConcertEvent(ConcertEvent concertEvent) {
+        for(Component c : this.getContentPane().getComponents()){
+            if(c instanceof ConcertListener){
+                ((ConcertListener)c).newConcertEvent(concertEvent);
+            }
+        }
+    }
+
+    @Override
+    public void newTicket(ConcertEvent concertEvent) {
+        for(Component c : this.getContentPane().getComponents()){
+            if(c instanceof ConcertListener){
+                ((ConcertListener)c).newTicket(concertEvent);
+            }
+        }
+    }
+
+    @Override
+    public void ticketRemoved(ConcertEvent concertEvent) {
+        for(Component c : this.getContentPane().getComponents()){
+            if(c instanceof ConcertListener){
+                ((ConcertListener)c).ticketRemoved(concertEvent);
+            }
+        }
     }
 }

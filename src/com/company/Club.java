@@ -77,6 +77,12 @@ public class Club {
             this.members.add(m);
     }
 
+    public void addSubscriber(ConcertListener concertListener){
+        if(!this.members.contains(concertListener)){
+            this.members.add(concertListener);
+        }
+    }
+
     public void removeMember(Membre m){
         this.members.remove(m);
     }
