@@ -19,6 +19,12 @@ public class RoomManager implements RoomListener {
         return rooms;
     }
 
+    public void addRoom(Room r){
+        if(!this.rooms.contains(r) && !this.reservedRooms.contains(r)){
+            this.rooms.add(r);
+        }
+    }
+
     @Override
     public void reserveRoom(RoomEvent salleEvent) throws RoomTakenException {
         if(this.rooms.contains(salleEvent.getRoom())){
