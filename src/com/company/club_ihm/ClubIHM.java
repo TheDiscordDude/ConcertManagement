@@ -2,6 +2,8 @@ package com.company.club_ihm;
 
 import com.company.Club;
 import com.company.RoomManager;
+import com.company.events.ConcertEvent;
+import com.company.listeners.ConcertListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,18 +12,20 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 // todo : be able to  create a Club / Room
-public class ClubIHM extends JFrame implements ActionListener {
+public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
     private JMenuItem disconnectMenu;
     private Club selectedClub;
     private JMenuItem createConcertMenu;
+    private JMenuItem createRoomMenu;
+    private JMenuItem refreshMenu;
     private JButton connectButton;
     private ArrayList<Club> clubs;
-    private RoomManager gestionnaire;
+    private RoomManager manager;
     private GridBagConstraints constraints;
 
     public ClubIHM(ArrayList<Club> clubs, RoomManager gestionnaire){
         this.clubs = clubs;
-        this.gestionnaire = gestionnaire;
+        this.manager = gestionnaire;
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -42,6 +46,33 @@ public class ClubIHM extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
+    private void createMenuBar(){
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu clubMenu = new JMenu("Club");
+        this.disconnectMenu = new JMenuItem("Déconnection");
+        this.refreshMenu = new JMenuItem("Rafraïchir");
+        this.refreshMenu.addActionListener(this);
+        this.disconnectMenu.addActionListener(this);
+        clubMenu.add(this.disconnectMenu);
+        clubMenu.add(this.refreshMenu);
+
+        JMenu concertMenu = new JMenu("Concert");
+        this.createConcertMenu = new JMenuItem("Organiser un concert");
+        this.createConcertMenu.addActionListener(this);
+        concertMenu.add(this.createConcertMenu);
+
+        JMenu roomMenu = new JMenu("Salles");
+        this.createRoomMenu = new JMenuItem("Ajouter une salle");
+        this.createRoomMenu.addActionListener(this);
+        roomMenu.add(this.createRoomMenu);
+
+        menuBar.add(clubMenu);
+        menuBar.add(concertMenu);
+        menuBar.add(roomMenu);
+        this.setJMenuBar(menuBar);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(this.disconnectMenu)){
@@ -53,25 +84,23 @@ public class ClubIHM extends JFrame implements ActionListener {
         else if(e.getSource().equals(this.connectButton)){
             this.connect();
         }
+        else if(e.getSource().equals(this.createRoomMenu)){
+            this.displayRoomForm();
+        }
+        else if(e.getSource().equals(this.refreshMenu)){
+            this.refresh();
+        }
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }
-    private void createMenuBar(){
-        JMenuBar menuBar = new JMenuBar();
 
-        JMenu clubMenu = new JMenu("Club");
-        this.disconnectMenu = new JMenuItem("Deconnection");
-        this.disconnectMenu.addActionListener(this);
-        clubMenu.add(this.disconnectMenu);
-
-        JMenu concertMenu = new JMenu("Concert");
-        this.createConcertMenu = new JMenuItem("Organiser un concert");
-        this.createConcertMenu.addActionListener(this);
-        concertMenu.add(this.createConcertMenu);
-
-        menuBar.add(clubMenu);
-        menuBar.add(concertMenu);
-        this.setJMenuBar(menuBar);
+    private void refresh(){
+        for(Component c : this.getContentPane().getComponents()){
+            this.getContentPane().remove(c);
+        }
+        this.constraints.gridy = 0;
+        ClubInfosIHM clubInfosIhm = new ClubInfosIHM(this.selectedClub);
+        this.getContentPane().add(clubInfosIhm, constraints);
     }
 
     private void connect(){
@@ -102,25 +131,66 @@ public class ClubIHM extends JFrame implements ActionListener {
                 this.clubs.toArray(),
                 this.clubs.toArray()[0]);
         for(Component component : container.getComponents()){
-            if(component instanceof ClubInfosIHM || component instanceof ConcertFormIHM){
-                container.remove(component);
-            }
+            container.remove(component);
         }
         container.add(new ClubInfosIHM(this.selectedClub), this.constraints);
     }
 
     private void displayConcertForm(){
         if(this.selectedClub != null){
-            Container container = this.getContentPane();
-            ClubInfosIHM clubInfosIHM = null;
-            for(Component component : container.getComponents()){
-                if(component instanceof ClubInfosIHM){
-                    clubInfosIHM = (ClubInfosIHM) component;
+            for(Component c : this.getContentPane().getComponents()){
+                if(c instanceof ConcertFormIHM){
+                    this.getContentPane().remove(c);
                     break;
                 }
             }
-            container.add(new ConcertFormIHM(this.selectedClub, this.gestionnaire, clubInfosIHM));
+            Container container = this.getContentPane();
+            this.constraints.gridy ++;
+            container.add(new ConcertFormIHM(this.selectedClub, this.manager), this.constraints);
         }
+    }
 
+    private void displayRoomForm(){
+        if(this.selectedClub != null){
+            for(Component c : this.getContentPane().getComponents()){
+                if(c instanceof RoomFormIHM){
+                    this.getContentPane().remove(c);
+                    break;
+                }
+            }
+
+            this.constraints.gridy ++;
+
+            Container container = this.getContentPane();
+            container.add(new RoomFormIHM(this.manager),this.constraints);
+
+        }
+    }
+
+    @Override
+    public void newConcertEvent(ConcertEvent concertEvent) {
+        for(Component c : this.getContentPane().getComponents()){
+            if(c instanceof ConcertListener){
+                ((ConcertListener)c).newConcertEvent(concertEvent);
+            }
+        }
+    }
+
+    @Override
+    public void newTicket(ConcertEvent concertEvent) {
+        for(Component c : this.getContentPane().getComponents()){
+            if(c instanceof ConcertListener){
+                ((ConcertListener)c).newTicket(concertEvent);
+            }
+        }
+    }
+
+    @Override
+    public void ticketRemoved(ConcertEvent concertEvent) {
+        for(Component c : this.getContentPane().getComponents()){
+            if(c instanceof ConcertListener){
+                ((ConcertListener)c).ticketRemoved(concertEvent);
+            }
+        }
     }
 }

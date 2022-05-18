@@ -7,7 +7,6 @@ import com.company.events.RoomEvent;
 import com.company.exceptions.RoomTakenException;
 import com.company.ui_elements.JDateField;
 import com.company.Club;
-import com.company.events.ConcertEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,24 +28,19 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
 
     private DefaultComboBoxModel<Room> comboBoxContent;
     private Club club;
-    private RoomManager gestionnaire;
-    private ClubInfosIHM clubInfosIHM;
+    private RoomManager manager;
     private GridBagConstraints constraints = new GridBagConstraints();
-
 
     /**
      * Create the actual form.
      * We need quite a lot of info, because when a concert is created,
      * an event must be sent to the club and the clubInfoIHM to update the display
      * @param club The club hosting the
-     * @param gestionnaire The manager that gives the rooms if they are not already reserved
-     * @param clubInfosIHM The other panel to update when a concert is created
+     * @param manager The manager that gives the rooms if they are not already reserved
      */
-
-    public ConcertFormIHM(Club club, RoomManager gestionnaire, ClubInfosIHM clubInfosIHM){
+    public ConcertFormIHM(Club club, RoomManager manager){
         this.club = club;
-        this.gestionnaire = gestionnaire;
-        this.clubInfosIHM = clubInfosIHM;
+        this.manager = manager;
 
         this.setLayout(new GridBagLayout());
         this.constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -85,7 +79,7 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
         this.add(salleLabel, this.constraints);
 
         this.comboBoxContent = new DefaultComboBoxModel<>();
-        this.comboBoxContent.addAll(this.gestionnaire.getRooms());
+        this.comboBoxContent.addAll(this.manager.getRooms());
 
         this.roomField = new JComboBox<>();
         this.roomField.setModel(this.comboBoxContent);
@@ -140,17 +134,16 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
         Room room = (Room) this.roomField.getSelectedItem();
 
         try {
-            this.gestionnaire.reserveRoom(new RoomEvent(this, room));
+            this.manager.reserveRoom(new RoomEvent(this, room));
         } catch (RoomTakenException ex) {
             throw new RuntimeException(ex);
         }
         this.comboBoxContent.removeAllElements();
-        this.comboBoxContent.addAll(this.gestionnaire.getRooms());
+        this.comboBoxContent.addAll(this.manager.getRooms());
 
         Concert newConcert = new Concert(concertName, date, cost, room);
         this.club.addConcert(newConcert);
 
-        this.clubInfosIHM.newConcertEvent(new ConcertEvent(this, newConcert));
     }
 
     /**

@@ -66,11 +66,19 @@ public class ClubInfosIHM extends JPanel implements ListSelectionListener, Conce
 
     @Override
     public void newTicket(ConcertEvent concertEvent) {
-
+        for(Component component : this.getComponents()){
+            if(component instanceof ConcertListener){
+                ((ConcertListener)component).newTicket(concertEvent);
+            }
+        }
     }
 
     @Override
     public void ticketRemoved(ConcertEvent concertEvent) {
-
+        for(Component component : this.getComponents()){
+            if(component instanceof ConcertListener){
+                ((ConcertListener)component).newConcertEvent(concertEvent);
+            }
+        }
     }
 }
