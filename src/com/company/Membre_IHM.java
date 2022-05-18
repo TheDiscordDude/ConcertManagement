@@ -247,7 +247,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
             List<ConcertListener> l_test=this.l_club.get(0).getMembers();
             ConcertListener m=l_test.get(0);
 
-            System.out.println(l_test.get(0).toString());
+            System.out.println(m);
 
         }
         else if (e.getActionCommand()=="Annuler un billet") {
