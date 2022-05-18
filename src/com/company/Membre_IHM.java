@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class Membre_IHM extends JFrame implements ActionListener, ListSelectionListener {
+public class Membre_IHM extends JFrame implements ActionListener, ListSelectionListener, ConcertListener {
     private int compt=0;
     private JPanel pan = new JPanel();
     private Label l1;
@@ -244,10 +244,10 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
                     }
                 }
             }*/
-            List<ConcertListener> l_test=this.l_club.get(0).getMembers();
-            ConcertListener m=l_test.get(0);
+            //List<ConcertListener> l_test=this.l_club.get(0).getMembers();
+            //ConcertListener m=l_test.get(0);
 
-            System.out.println(m);
+            //System.out.println(m);
 
         }
         else if (e.getActionCommand()=="Annuler un billet") {
@@ -341,6 +341,21 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
         this.pan.repaint();
         this.pan.validate();
 
+
+    }
+
+    @Override
+    public void newConcertEvent(ConcertEvent concertEvent) {
+
+    }
+
+    @Override
+    public void newTicket(ConcertEvent concertEvent) {
+
+    }
+
+    @Override
+    public void ticketRemoved(ConcertEvent concertEvent) {
 
     }
 }

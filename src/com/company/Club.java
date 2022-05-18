@@ -15,11 +15,12 @@ public class Club {
 
     private String name;
 
-    public List<ConcertListener> getMembers() {
+    public List<Membre> getMembers() {
         return members;
     }
 
-    private List<ConcertListener> members;
+    private List<Membre> members;
+    private List<ConcertListener> subscribers;
     private List<ConcertEvent> concertEvents;
 
     public List<ConcertEvent> getConcertEvents() {
@@ -30,9 +31,10 @@ public class Club {
         this.concertEvents = concertEvents;
     }
 
-    public Club(String nom, List<ConcertListener> members) {
+    public Club(String nom, List<Membre> members) {
         this.name = nom;
         this.members = members;
+        this.subscribers = new ArrayList<>();
         this.concertEvents = new ArrayList<>();
     }
 
@@ -45,7 +47,7 @@ public class Club {
             if(c.getConcert().equals(concert)){
                 try{
                     concert.addReservation();
-                    for(ConcertListener cl : this.members){
+                    for(ConcertListener cl : this.subscribers){
                         cl.newTicket(c);
                     }
                 } catch (FullRoomException e){
@@ -73,13 +75,16 @@ public class Club {
     }
 
     public void addMembre(Membre m){
-        if(!this.members.contains(m))
+        if(!this.members.contains(m)){
             this.members.add(m);
+            this.addSubscriber(m);
+        }
+
     }
 
     public void addSubscriber(ConcertListener concertListener){
-        if(!this.members.contains(concertListener)){
-            this.members.add(concertListener);
+        if(!this.subscribers.contains(concertListener)){
+            this.subscribers.add(concertListener);
         }
     }
 
@@ -90,7 +95,7 @@ public class Club {
     public void addConcert(Concert concert){
         ConcertEvent concertEvent = new ConcertEvent(this, concert);
 
-        for(ConcertListener concertListener : this.members){
+        for(ConcertListener concertListener : this.subscribers){
             concertListener.newConcertEvent(concertEvent);
         }
         this.concertEvents.add(concertEvent);
