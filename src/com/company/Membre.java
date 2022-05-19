@@ -64,6 +64,11 @@ public class Membre implements ConcertListener {
             System.out.println("Je peux y aller !");
     }
 
+    @Override
+    public void cancelConcertEvent(ConcertEvent concertEvent) {
+
+    }
+
     public List<Concert> getL_concert() {
         return l_concert;
     }

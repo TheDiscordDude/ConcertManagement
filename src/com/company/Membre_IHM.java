@@ -350,6 +350,11 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
     }
 
     @Override
+    public void cancelConcertEvent(ConcertEvent concertEvent) {
+
+    }
+
+    @Override
     public void newTicket(ConcertEvent concertEvent) {
 
     }

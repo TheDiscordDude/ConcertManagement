@@ -20,6 +20,13 @@ public class GlobalEventManager implements ConcertListener {
     }
 
     @Override
+    public void cancelConcertEvent(ConcertEvent concertEvent) {
+        for(ConcertListener c : this.listeners){
+            c.cancelConcertEvent(concertEvent);
+        }
+    }
+
+    @Override
     public void newTicket(ConcertEvent concertEvent) {
         for(ConcertListener c : this.listeners){
             c.newTicket(concertEvent);

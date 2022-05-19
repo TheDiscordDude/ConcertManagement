@@ -2,6 +2,7 @@ package com.company.club_ihm;
 
 import com.company.Room;
 import com.company.RoomManager;
+import com.company.ui_elements.JTitle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,11 +26,15 @@ public class RoomFormIHM extends JPanel implements ActionListener {
         this.constraints.gridx = 0;
         this.constraints.gridy = 0;
 
+        JTitle title = new JTitle("Ajouter un salle: ");
+        this.add(title, this.constraints);
+
         JLabel nameLabel = new JLabel("Nom de la Salle :");
+        this.constraints.gridy ++;
         this.add(nameLabel, this.constraints);
 
         this.nameField = new JTextField();
-        this.constraints.gridy = 1;
+        this.constraints.gridy ++;
         this.add(this.nameField, this.constraints);
 
         JLabel capacityLabel = new JLabel("Capacité de la salle :");
@@ -42,7 +47,7 @@ public class RoomFormIHM extends JPanel implements ActionListener {
 
         JButton button = new JButton("Créer");
         button.addActionListener(this);
-        this.constraints.gridy ++ ;
+        this.constraints.gridy ++;
         this.add(button, this.constraints);
     }
 

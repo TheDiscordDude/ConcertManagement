@@ -7,6 +7,7 @@ import com.company.events.RoomEvent;
 import com.company.exceptions.RoomTakenException;
 import com.company.ui_elements.JDateField;
 import com.company.Club;
+import com.company.ui_elements.JTitle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,11 +49,15 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
         this.constraints.gridx = 0;
         this.constraints.gridy = 0;
 
+        JTitle title = new JTitle("Créer un concert : ");
+        this.add(title, this.constraints);
+
         JLabel nameLabel = new JLabel("Nom du concert :");
+        this.constraints.gridy ++;
         this.add(nameLabel, this.constraints);
 
         this.nameField = new JTextField();
-        this.constraints.gridy = 1;
+        this.constraints.gridy ++;
         this.add(this.nameField, this.constraints);
 
 

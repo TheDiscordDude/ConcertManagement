@@ -106,6 +106,13 @@ public class Club {
         this.concertEvents.add(concertEvent);
     }
 
+    public void cancelConcert(ConcertEvent concert){
+        this.concertEvents.remove(concert);
+        for(ConcertListener c : this.subscribers){
+            c.cancelConcertEvent(concert);
+        }
+    }
+
 
     @Override
     public String toString() {

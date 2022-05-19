@@ -23,21 +23,26 @@ public class ConcertInfosIHM extends JPanel implements ConcertListener {
         JLabel nameLabel = new JLabel("Nom du concert : "+concert.getName());
         this.add(nameLabel,c);
 
-        c.gridy ++;
+        c.gridy = 1;
         JLabel dateLabel = new JLabel("Date : " + concert.getDate());
         this.add(dateLabel,c);
 
-        c.gridy ++;
+        c.gridy = 2;
         JLabel costsLabel = new JLabel("L'accès au concert coute : " + concert.getCost() + " euros");
         this.add(costsLabel,c);
 
-        c.gridy ++;
+        c.gridy = 3;
         this.ticketLabel = new JLabel("Il y a " + concert.availableTickets() + " place(s) disponible(s)");
         this.add(ticketLabel,c);
     }
 
     @Override
     public void newConcertEvent(ConcertEvent concertEvent) {
+    }
+
+    @Override
+    public void cancelConcertEvent(ConcertEvent concertEvent) {
+
     }
 
     @Override
