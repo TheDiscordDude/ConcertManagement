@@ -74,6 +74,11 @@ public class MembreGestionClub_IHM extends JFrame implements ActionListener, Lis
     }
 
     @Override
+    public void cancelConcertEvent(ConcertEvent concertEvent) {
+
+    }
+
+    @Override
     public void newTicket(ConcertEvent concertEvent) {
 
     }
