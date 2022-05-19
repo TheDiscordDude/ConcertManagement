@@ -1,17 +1,18 @@
-package com.company;
+package com.company.ihm;
 
+import com.company.Club;
+import com.company.Concert;
+import com.company.Membre;
 import com.company.events.ConcertEvent;
 import com.company.listeners.ConcertListener;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.metal.MetalMenuBarUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 

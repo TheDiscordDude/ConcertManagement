@@ -1,4 +1,4 @@
-package com.company.club_ihm;
+package com.company.ihm;
 
 import com.company.Concert;
 import com.company.events.ConcertEvent;

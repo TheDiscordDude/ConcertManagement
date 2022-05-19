@@ -1,5 +1,7 @@
-package com.company;
+package com.company.ihm;
 
+import com.company.Club;
+import com.company.Membre;
 import com.company.events.ConcertEvent;
 import com.company.listeners.ConcertListener;
 

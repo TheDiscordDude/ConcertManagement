@@ -1,6 +1,7 @@
 package com.company;
 
-import com.company.club_ihm.ClubIHM;
+import com.company.ihm.ClubIHM;
+import com.company.ihm.Membre_IHM;
 import com.company.events.RoomEvent;
 import com.company.exceptions.RoomTakenException;
 import com.company.listeners.ConcertListener;
@@ -109,16 +110,13 @@ public class JeuDeTest {
 
         m1.reserverBillet(concert,b1);
         m2.reserverBillet(concert2,b2);
-        List<Membre> l_m=new ArrayList<>();
-        l_m.add(m1);
-        l_m.add(m2);
-
 
         List<Concert> l_c=new ArrayList<>();
         l_c.add(concert);
         l_c.add(concert2);
 
         ClubIHM clubIHM=new ClubIHM(clubs, gestionnaireSalle);
+
         Membre_IHM membre_ihm=new Membre_IHM(clubs,l_c);
 
         List<ConcertListener> concertListeners = new ArrayList<>();
