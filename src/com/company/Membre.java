@@ -82,4 +82,9 @@ public class Membre implements ConcertListener {
     public void ticketRemoved(ConcertEvent concertEvent) {
         System.out.println("Un nouveau billet est disponible pour : '"+concertEvent.getConcert().getName() + "', ainsi il reste : " + concertEvent.getConcert().availableTickets() + " billets disponible(s)");
     }
+
+    @Override
+    public String toString() {
+        return nom + ' ' + prenom;
+    }
 }

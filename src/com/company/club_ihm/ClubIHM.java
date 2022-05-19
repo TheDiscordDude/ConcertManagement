@@ -1,6 +1,7 @@
 package com.company.club_ihm;
 
 import com.company.Club;
+import com.company.Membre;
 import com.company.RoomManager;
 import com.company.events.ConcertEvent;
 import com.company.listeners.ConcertListener;
@@ -18,6 +19,7 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
     private JMenuItem createConcertMenu;
     private JMenuItem createRoomMenu;
     private JMenuItem refreshMenu;
+    private JMenuItem banMemberMenu;
     private JButton connectButton;
     private ArrayList<Club> clubs;
     private RoomManager manager;
@@ -67,9 +69,15 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         this.createRoomMenu.addActionListener(this);
         roomMenu.add(this.createRoomMenu);
 
+        JMenu memberMenu = new JMenu("Membres");
+        this.banMemberMenu = new JMenuItem("Bannir un membre");
+        this.banMemberMenu.addActionListener(this);
+        memberMenu.add(this.banMemberMenu);
+
         menuBar.add(clubMenu);
         menuBar.add(concertMenu);
         menuBar.add(roomMenu);
+        menuBar.add(memberMenu);
         this.setJMenuBar(menuBar);
     }
 
@@ -90,8 +98,25 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         else if(e.getSource().equals(this.refreshMenu)){
             this.refresh();
         }
+        else if(e.getSource().equals(this.banMemberMenu)) {
+            this.banMember();
+        }
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
+    }
+
+    private void banMember() {
+        if(this.selectedClub != null){
+            Membre membre = (Membre) JOptionPane.showInputDialog(
+                    this,
+                    "Quel membre doit être banni ?",
+                    "Banissement",
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    this.selectedClub.getMembers().toArray(),
+                    this.selectedClub.getMembers().toArray()[0]);
+            this.selectedClub.removeMember(membre);
+        }
     }
 
     private void refresh(){
@@ -105,7 +130,7 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
 
     private void connect(){
         this.selectedClub = (Club) JOptionPane.showInputDialog(
-                null,
+                this,
                 "Quel Club voulez vous gérer ?",
                 "Choix club",
                 JOptionPane.QUESTION_MESSAGE,

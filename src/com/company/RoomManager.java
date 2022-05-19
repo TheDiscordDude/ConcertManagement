@@ -32,7 +32,7 @@ public class RoomManager implements RoomListener {
             this.reservedRooms.add(salleEvent.getRoom());
         }
         else {
-            throw new RoomTakenException("The room : " + salleEvent.toString() + "is already taken");
+            throw new RoomTakenException("The room : " + salleEvent + "is already taken");
         }
     }
 
