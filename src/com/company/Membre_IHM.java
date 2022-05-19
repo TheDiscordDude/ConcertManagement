@@ -380,12 +380,16 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
 
     @Override
     public void newConcertEvent(ConcertEvent concertEvent) {
-
+        if(!this.l_c.contains(concertEvent.getConcert())){
+            this.l_c.add(concertEvent.getConcert());
+        }
     }
 
     @Override
     public void cancelConcertEvent(ConcertEvent concertEvent) {
-
+        if(this.l_c.contains(concertEvent.getConcert())){
+            this.l_c.remove(concertEvent.getConcert());
+        }
     }
 
     @Override

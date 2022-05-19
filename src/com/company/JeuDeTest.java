@@ -3,6 +3,7 @@ package com.company;
 import com.company.club_ihm.ClubIHM;
 import com.company.events.RoomEvent;
 import com.company.exceptions.RoomTakenException;
+import com.company.listeners.ConcertListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -117,10 +118,17 @@ public class JeuDeTest {
         l_c.add(concert);
         l_c.add(concert2);
 
-        new ClubIHM(clubs, gestionnaireSalle);
-        new Membre_IHM(clubs,l_c);
+        ClubIHM clubIHM=new ClubIHM(clubs, gestionnaireSalle);
+        Membre_IHM membre_ihm=new Membre_IHM(clubs,l_c);
 
+        List<ConcertListener> concertListeners = new ArrayList<>();
+        concertListeners.add(clubIHM);
+        concertListeners.add(membre_ihm);
+        GlobalEventManager globalEventManager = new GlobalEventManager(concertListeners);
 
+        b1.addSubscriber(globalEventManager);
+        b2.addSubscriber(globalEventManager);
+        b3.addSubscriber(globalEventManager);
 
     }
 }
