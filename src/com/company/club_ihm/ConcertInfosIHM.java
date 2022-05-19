@@ -38,12 +38,10 @@ public class ConcertInfosIHM extends JPanel implements ConcertListener {
 
     @Override
     public void newConcertEvent(ConcertEvent concertEvent) {
-        // todo :
     }
 
     @Override
     public void newTicket(ConcertEvent concertEvent) {
-        // todo :
         if (concertEvent.getConcert() == this.concert){
             this.ticketLabel.setText("Il y a " + concertEvent.getConcert().availableTickets() + " place(s) disponible(s)");
 
@@ -54,7 +52,11 @@ public class ConcertInfosIHM extends JPanel implements ConcertListener {
 
     @Override
     public void ticketRemoved(ConcertEvent concertEvent) {
-        // todo :
+        if (concertEvent.getConcert() == this.concert){
+            this.ticketLabel.setText("Il y a " + concertEvent.getConcert().availableTickets() + " place(s) disponible(s)");
 
+            this.revalidate();
+            this.repaint();
+        }
     }
 }

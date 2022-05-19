@@ -50,11 +50,33 @@ public class RoomFormIHM extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String roomName = this.nameField.getText();
 
+        if(roomName.isBlank()){
+            FormPopups.fieldMustNotBeBlank(this, "Room name");
+            return;
+        }
+
         String capacityString = this.capacityField.getText();
-        int roomCapacity = Integer.parseInt(capacityString);
+        if(capacityString.isBlank()){
+            FormPopups.fieldMustNotBeBlank(this, "Capacity");
+            return;
+        }
+
+        int roomCapacity ;
+        try{
+            roomCapacity = Integer.parseInt(capacityString);
+            if(roomCapacity < 1){
+                FormPopups.showError(this, "Capacity Error","capacity too small");
+                return;
+            }
+        } catch (NumberFormatException err){
+            FormPopups.showError(this, "Capacity Error","Wrong number format");
+            err.printStackTrace();
+            return;
+        }
 
         Room newRoom = new Room(roomName, roomCapacity);
-
         this.roomManager.addRoom(newRoom);
+
+        FormPopups.success(this, "Salle ajoutée", "La salle a été ajoutée");
     }
 }

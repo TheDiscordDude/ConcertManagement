@@ -90,6 +90,11 @@ public class Club {
 
     public void removeMember(Membre m){
         this.members.remove(m);
+        this.subscribers.remove(m);
+    }
+
+    public void removeSubscriber(ConcertListener concertListener){
+        this.subscribers.remove(concertListener);
     }
 
     public void addConcert(Concert concert){

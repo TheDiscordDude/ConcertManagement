@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -104,7 +105,7 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
 
         // Checking if is the name is blank
         if(concertName.isBlank()){
-            fieldMustNotBeBlank("Concert name");
+            FormPopups.fieldMustNotBeBlank(this, "Concert name");
             return;
         }
 
@@ -114,18 +115,18 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             dateFormat.setLenient(false);
             date = dateFormat.parse(dateString);
-            System.out.println(date);
+            if(!date.after(Calendar.getInstance().getTime())){
+                FormPopups.showError(this, "Date Error", "Date must be in the future");
+                return;
+            }
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(null,
-                    "Date is in wrong format",
-                    "Date Error",
-                    JOptionPane.ERROR_MESSAGE);
+            FormPopups.showError(this, "Date Error", "Date is in wrong format");
             return;
         }
 
         // Check if the costField is blank
         if(this.costField.getText().isBlank()){
-            fieldMustNotBeBlank("Cost");
+            FormPopups.fieldMustNotBeBlank(this, "Cost");
             return;
         }
 
@@ -143,17 +144,6 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
 
         Concert newConcert = new Concert(concertName, date, cost, room);
         this.club.addConcert(newConcert);
-
-    }
-
-    /**
-     * Informs the user that a field is blank
-     * @param fieldName the name of the field
-     */
-    static void fieldMustNotBeBlank(String fieldName){
-        JOptionPane.showMessageDialog(null,
-                String.format("%1$s field must not be blank", fieldName),
-                 String.format("%1$s Error", fieldName),
-                JOptionPane.ERROR_MESSAGE);
+        FormPopups.success(this, "Concert", "Concert ajouté");
     }
 }
