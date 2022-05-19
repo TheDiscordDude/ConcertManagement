@@ -9,13 +9,18 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
-public class ClubInfosIHM extends JPanel implements ListSelectionListener, ConcertListener {
+public class ClubInfosIHM extends JPanel implements ListSelectionListener, ConcertListener, ActionListener {
     private JList<ConcertEvent> concertList;
     private DefaultListModel<ConcertEvent> concertEventDefaultListModel;
     private GridBagConstraints constraints = new GridBagConstraints();
+
+    private Club club;
     public ClubInfosIHM(Club club){
+        this.club = club;
         this.setLayout(new GridBagLayout());
 
         this.constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -40,7 +45,12 @@ public class ClubInfosIHM extends JPanel implements ListSelectionListener, Conce
         this.concertList.addListSelectionListener(this);
         this.add(this.concertList, this.constraints);
 
+        JButton deleteButton = new JButton("Annuler le concert");
+        deleteButton.addActionListener(this);
         this.constraints.gridy = 2;
+        this.add(deleteButton, this.constraints);
+
+        this.constraints.gridy = 3;
         JLabel numberOfMembers = new JLabel("Je possède " + club.getMembers().size()+" abonnés");
         this.add(numberOfMembers, this.constraints);
     }
@@ -52,8 +62,9 @@ public class ClubInfosIHM extends JPanel implements ListSelectionListener, Conce
                 this.remove(c);
             }
         }
-        this.constraints.gridy++;
-        this.add(new ConcertInfosIHM(this.concertList.getSelectedValue().getConcert()), this.constraints);
+        this.constraints.gridy = 4;
+        if(this.concertList.getSelectedValue() != null)
+            this.add(new ConcertInfosIHM(this.concertList.getSelectedValue().getConcert()), this.constraints);
 
         this.revalidate();
         this.repaint();
@@ -62,6 +73,14 @@ public class ClubInfosIHM extends JPanel implements ListSelectionListener, Conce
     @Override
     public void newConcertEvent(ConcertEvent concertEvent) {
         this.concertEventDefaultListModel.addElement(concertEvent);
+    }
+
+    @Override
+    public void cancelConcertEvent(ConcertEvent concertEvent) {
+        this.concertEventDefaultListModel.removeElement(concertEvent);
+
+        this.revalidate();
+        this.repaint();
     }
 
     @Override
@@ -79,6 +98,14 @@ public class ClubInfosIHM extends JPanel implements ListSelectionListener, Conce
             if(component instanceof ConcertListener){
                 ((ConcertListener)component).newConcertEvent(concertEvent);
             }
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        ConcertEvent result = this.concertList.getSelectedValue();
+        if(result != null){
+            this.club.cancelConcert(result);
         }
     }
 }

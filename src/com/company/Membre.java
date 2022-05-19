@@ -79,6 +79,11 @@ public class Membre implements ConcertListener {
             System.out.println("Je peux y aller !");
     }
 
+    @Override
+    public void cancelConcertEvent(ConcertEvent concertEvent) {
+
+    }
+
     public List<Concert> getL_concert() {
         return l_concert;
     }
@@ -96,5 +101,10 @@ public class Membre implements ConcertListener {
     @Override
     public void ticketRemoved(ConcertEvent concertEvent) {
         System.out.println("Un nouveau billet est disponible pour : '"+concertEvent.getConcert().getName() + "', ainsi il reste : " + concertEvent.getConcert().availableTickets() + " billets disponible(s)");
+    }
+
+    @Override
+    public String toString() {
+        return nom + ' ' + prenom;
     }
 }

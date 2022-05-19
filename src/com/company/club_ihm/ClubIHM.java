@@ -1,6 +1,7 @@
 package com.company.club_ihm;
 
 import com.company.Club;
+import com.company.Membre;
 import com.company.RoomManager;
 import com.company.events.ConcertEvent;
 import com.company.listeners.ConcertListener;
@@ -18,18 +19,19 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
     private JMenuItem createConcertMenu;
     private JMenuItem createRoomMenu;
     private JMenuItem refreshMenu;
+    private JMenuItem banMemberMenu;
     private JButton connectButton;
     private ArrayList<Club> clubs;
     private RoomManager manager;
     private GridBagConstraints constraints;
 
-    public ClubIHM(ArrayList<Club> clubs, RoomManager gestionnaire){
+    public ClubIHM(ArrayList<Club> clubs, RoomManager manager){
         this.clubs = clubs;
-        this.manager = gestionnaire;
+        this.manager = manager;
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.setSize(500, 500);
+        this.setSize(400, 600);
         this.setTitle("Club - Concert Management");
 
         Container container=getContentPane();
@@ -67,9 +69,15 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         this.createRoomMenu.addActionListener(this);
         roomMenu.add(this.createRoomMenu);
 
+        JMenu memberMenu = new JMenu("Membres");
+        this.banMemberMenu = new JMenuItem("Bannir un membre");
+        this.banMemberMenu.addActionListener(this);
+        memberMenu.add(this.banMemberMenu);
+
         menuBar.add(clubMenu);
         menuBar.add(concertMenu);
         menuBar.add(roomMenu);
+        menuBar.add(memberMenu);
         this.setJMenuBar(menuBar);
     }
 
@@ -90,8 +98,25 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         else if(e.getSource().equals(this.refreshMenu)){
             this.refresh();
         }
+        else if(e.getSource().equals(this.banMemberMenu)) {
+            this.banMember();
+        }
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
+    }
+
+    private void banMember() {
+        if(this.selectedClub != null){
+            Membre membre = (Membre) JOptionPane.showInputDialog(
+                    this,
+                    "Quel membre doit être banni ?",
+                    "Banissement",
+                    JOptionPane.WARNING_MESSAGE,
+                    null,
+                    this.selectedClub.getMembers().toArray(),
+                    this.selectedClub.getMembers().toArray()[0]);
+            this.selectedClub.removeMember(membre);
+        }
     }
 
     private void refresh(){
@@ -105,7 +130,7 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
 
     private void connect(){
         this.selectedClub = (Club) JOptionPane.showInputDialog(
-                null,
+                this,
                 "Quel Club voulez vous gérer ?",
                 "Choix club",
                 JOptionPane.QUESTION_MESSAGE,
@@ -113,16 +138,19 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
                 clubs.toArray(),
                 clubs.toArray()[0]);
 
+        if(this.selectedClub == null){
+            return;
+        }
+
         this.constraints.gridy = 1;
         ClubInfosIHM clubInfosIhm = new ClubInfosIHM(this.selectedClub);
         this.getContentPane().add(clubInfosIhm, constraints);
-        //this.connectButton.setVisible(false);
         this.getContentPane().remove(this.connectButton);
     }
 
     private void disconnect(){
         Container container = this.getContentPane();
-        this.selectedClub = (Club) JOptionPane.showInputDialog(
+        Club bucket = (Club) JOptionPane.showInputDialog(
                 null,
                 "Quel Club voulez vous gérer ?",
                 "Choix club",
@@ -130,9 +158,17 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
                 null,
                 this.clubs.toArray(),
                 this.clubs.toArray()[0]);
+
+        if(bucket == null){
+
+            return;
+        }
+        this.selectedClub = bucket;
+
         for(Component component : container.getComponents()){
             container.remove(component);
         }
+        this.constraints.gridy ++;
         container.add(new ClubInfosIHM(this.selectedClub), this.constraints);
     }
 
@@ -145,7 +181,7 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
                 }
             }
             Container container = this.getContentPane();
-            this.constraints.gridy ++;
+            this.constraints.gridy = 2;
             container.add(new ConcertFormIHM(this.selectedClub, this.manager), this.constraints);
         }
     }
@@ -159,7 +195,7 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
                 }
             }
 
-            this.constraints.gridy ++;
+            this.constraints.gridy = 3;
 
             Container container = this.getContentPane();
             container.add(new RoomFormIHM(this.manager),this.constraints);
@@ -172,6 +208,15 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         for(Component c : this.getContentPane().getComponents()){
             if(c instanceof ConcertListener){
                 ((ConcertListener)c).newConcertEvent(concertEvent);
+            }
+        }
+    }
+
+    @Override
+    public void cancelConcertEvent(ConcertEvent concertEvent) {
+        for(Component c : this.getContentPane().getComponents()){
+            if(c instanceof ConcertListener){
+                ((ConcertListener)c).cancelConcertEvent(concertEvent);
             }
         }
     }
