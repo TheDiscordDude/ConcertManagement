@@ -118,7 +118,7 @@ public class JeuDeTest {
         l_c.add(concert2);
 
         new ClubIHM(clubs, gestionnaireSalle);
-        new Membre_IHM(l_m,clubs,l_c);
+        new Membre_IHM(clubs,l_c);
 
 
 

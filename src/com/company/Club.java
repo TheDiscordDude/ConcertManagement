@@ -38,6 +38,10 @@ public class Club {
         this.concertEvents = new ArrayList<>();
     }
 
+    public Club(){
+
+    }
+
     public Club(String nom) {
         this(nom, new ArrayList<>());
     }
