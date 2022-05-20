@@ -45,6 +45,10 @@ public class ConcertInfosIHM extends JPanel implements ConcertListener {
 
     }
 
+    /**
+     * When a new ticket is bought, we update the display
+     * @param concertEvent The event we are sending with the source and the concert inside
+     */
     @Override
     public void newTicket(ConcertEvent concertEvent) {
         if (concertEvent.getConcert() == this.concert){
@@ -55,6 +59,10 @@ public class ConcertInfosIHM extends JPanel implements ConcertListener {
         }
     }
 
+    /**
+     * When a new ticket is canceled, we update the display
+     * @param concertEvent The event we are sending with the source and the concert inside
+     */
     @Override
     public void ticketRemoved(ConcertEvent concertEvent) {
         if (concertEvent.getConcert() == this.concert){

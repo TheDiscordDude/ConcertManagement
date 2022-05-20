@@ -51,6 +51,10 @@ public class RoomFormIHM extends JPanel implements ActionListener {
         this.add(button, this.constraints);
     }
 
+    /**
+     *
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String roomName = this.nameField.getText();

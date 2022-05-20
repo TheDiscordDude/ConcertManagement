@@ -40,7 +40,11 @@ public class Concert {
     }
 
     public double getCost() {
-        return cost;
+        return this.cost;
+    }
+
+    public Room getRoom() {
+        return this.salle;
     }
 
     @Override

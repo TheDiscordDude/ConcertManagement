@@ -15,6 +15,7 @@ public class Club {
 
     private String name;
 
+    // The list containing all the mebers.
     public List<Membre> getMembers() {
         return members;
     }
@@ -25,10 +26,6 @@ public class Club {
 
     public List<ConcertEvent> getConcertEvents() {
         return concertEvents;
-    }
-
-    public void setConcertEvents(List<ConcertEvent> concertEvents) {
-        this.concertEvents = concertEvents;
     }
 
     public Club(String nom, List<Membre> members) {
@@ -62,6 +59,10 @@ public class Club {
         }
     }
 
+    /**
+     * Deletes a ticket
+     * @param concert The concert we wish to
+     */
     public void annulerBillet(Concert concert){
         for(ConcertEvent c : this.concertEvents){
             if(c.getConcert().equals(concert)){
@@ -78,6 +79,12 @@ public class Club {
         }
     }
 
+
+    /**
+     * This method adds a member to the club.
+     * By default, a member is also a subscriber
+     * @param m The member to be added
+     */
     public void addMembre(Membre m){
         if(!this.members.contains(m)){
             this.members.add(m);
@@ -86,12 +93,20 @@ public class Club {
 
     }
 
+    /**
+     * Adds a subscriber to the club newLetter.
+     * @param concertListener The subscriber we want to add
+     */
     public void addSubscriber(ConcertListener concertListener){
         if(!this.subscribers.contains(concertListener)){
             this.subscribers.add(concertListener);
         }
     }
 
+    /**
+     * Removes a subscriber from the member list as well as the newLetter subscriber.
+     * @param m The subscriber we want to remove
+     */
     public void removeMember(Membre m){
         this.members.remove(m);
         this.subscribers.remove(m);
@@ -101,6 +116,11 @@ public class Club {
         this.subscribers.remove(concertListener);
     }
 
+    /**
+     * Adds a concert to the list.
+     * It also sends a notification to all the subscribers
+     * @param concert the concert we want to add
+     */
     public void addConcert(Concert concert){
         ConcertEvent concertEvent = new ConcertEvent(this, concert);
 
@@ -110,13 +130,18 @@ public class Club {
         this.concertEvents.add(concertEvent);
     }
 
+    /**
+     * Cancels the concert passed as parameter and
+     * sends a notification to all subscribers.
+     * @param concert The concert we want to cancel
+     */
     public void cancelConcert(ConcertEvent concert){
         this.concertEvents.remove(concert);
+
         for(ConcertListener c : this.subscribers){
             c.cancelConcertEvent(concert);
         }
     }
-
 
     @Override
     public String toString() {

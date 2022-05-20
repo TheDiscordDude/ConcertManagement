@@ -4,6 +4,7 @@ import com.company.Club;
 import com.company.Membre;
 import com.company.RoomManager;
 import com.company.events.ConcertEvent;
+import com.company.events.RoomEvent;
 import com.company.listeners.ConcertListener;
 
 import javax.swing.*;
@@ -48,6 +49,9 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         this.setVisible(true);
     }
 
+    /**
+     * Creates the menu bar for the Frame
+     */
     private void createMenuBar(){
         JMenuBar menuBar = new JMenuBar();
 
@@ -81,30 +85,46 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         this.setJMenuBar(menuBar);
     }
 
+    /** Here, we treat all the events coming from the menu bar and the connect button
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
+        // We can't use switch because these are not basic types
+
+        // I fwe click on the disconnect button, we call the disconnect method
         if(e.getSource().equals(this.disconnectMenu)){
             this.disconnect();
         }
+        // If we click "Organiser un concert" on the menu bar, we display the concert form
         else if(e.getSource().equals(this.createConcertMenu)) {
             this.displayConcertForm();
         }
+        // If we click on the connect button, we call the connect method
         else if(e.getSource().equals(this.connectButton)){
             this.connect();
         }
+        // If we click "Ajouter une salle" in the Menu, we display the correct form
         else if(e.getSource().equals(this.createRoomMenu)){
             this.displayRoomForm();
         }
+        // If we click "Rafraîchir" in the menu, we refresh the entire display
         else if(e.getSource().equals(this.refreshMenu)){
             this.refresh();
         }
+        // If we click "Bannir un membre" in the menu, we display a new window to choose which user to ban
         else if(e.getSource().equals(this.banMemberMenu)) {
             this.banMember();
         }
+
+        // We then refresh the UI
         this.getContentPane().revalidate();
         this.getContentPane().repaint();
     }
 
+    /**
+     * This method is used to display a window and ban the chosen member
+     */
     private void banMember() {
         if(this.selectedClub != null){
             Membre membre = (Membre) JOptionPane.showInputDialog(
@@ -119,6 +139,9 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         }
     }
 
+    /**
+     * The method deletes all elements of the frame and then rebuilds the whole thing
+     */
     private void refresh(){
         for(Component c : this.getContentPane().getComponents()){
             this.getContentPane().remove(c);
@@ -128,6 +151,9 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         this.getContentPane().add(clubInfosIhm, constraints);
     }
 
+    /**
+     * This method display an option panel. This panel allows the user to choose which club to connect to
+     */
     private void connect(){
         this.selectedClub = (Club) JOptionPane.showInputDialog(
                 this,
@@ -148,6 +174,9 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         this.getContentPane().remove(this.connectButton);
     }
 
+    /**
+     * Just as the connect method, this method displays a panel allowing the user to choose which club to connect to
+     */
     private void disconnect(){
         Container container = this.getContentPane();
         Club bucket = (Club) JOptionPane.showInputDialog(
@@ -172,6 +201,9 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         container.add(new ClubInfosIHM(this.selectedClub), this.constraints);
     }
 
+    /**
+     * This method displays an instance of ConcertFormIHM. This Panel allows the user to create a new Concert
+     */
     private void displayConcertForm(){
         if(this.selectedClub != null){
             for(Component c : this.getContentPane().getComponents()){
@@ -186,6 +218,9 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         }
     }
 
+    /**
+     * THis method displays an instance of RoomFormIHM. This Panel allows the user to create a new Room
+     */
     private void displayRoomForm(){
         if(this.selectedClub != null){
             for(Component c : this.getContentPane().getComponents()){
@@ -203,6 +238,12 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         }
     }
 
+    /**
+     * This method is used as a bridge between ConcertListeners :
+     * All the "newConcertEvent" received from the GlobalEventManager are passed down
+     * to other Listeners.
+     * @param concertEvent The event we are sending with the source and the concert inside
+     */
     @Override
     public void newConcertEvent(ConcertEvent concertEvent) {
         for(Component c : this.getContentPane().getComponents()){
@@ -212,8 +253,17 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         }
     }
 
+    /**
+     * This method is used as a bridge between ConcertListeners :
+     * All the "cancelConcertEvent" received from the GlobalEventManager are passed down
+     * to other Listeners.
+     * @param concertEvent The concert we are canceling
+     */
     @Override
     public void cancelConcertEvent(ConcertEvent concertEvent) {
+
+        this.manager.roomAvailable(new RoomEvent(this, concertEvent.getConcert().getRoom()));
+
         for(Component c : this.getContentPane().getComponents()){
             if(c instanceof ConcertListener){
                 ((ConcertListener)c).cancelConcertEvent(concertEvent);
@@ -221,6 +271,12 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         }
     }
 
+    /**
+     * This method is used as a bridge between ConcertListeners :
+     * All the "newTicket" received from the GlobalEventManager are passed down
+     * to other Listeners.
+     * @param concertEvent The event we are sending with the source and the concert inside
+     */
     @Override
     public void newTicket(ConcertEvent concertEvent) {
         for(Component c : this.getContentPane().getComponents()){
@@ -230,6 +286,12 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
         }
     }
 
+    /**
+     * This method is used as a bridge between ConcertListeners :
+     * All the "ticketRemoved" received from the GlobalEventManager are passed down
+     * to other Listeners.
+     * @param concertEvent The event we are sending with the source and the concert inside
+     */
     @Override
     public void ticketRemoved(ConcertEvent concertEvent) {
         for(Component c : this.getContentPane().getComponents()){
