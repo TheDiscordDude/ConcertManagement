@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+
 public class Membre_IHM extends JFrame implements ActionListener, ListSelectionListener, ConcertListener {
     private int compt=0;
     private JPanel pan = new JPanel();
@@ -103,9 +105,11 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
 
         this.list2=new JList();
         this.pan.add(this.list2,this.constr);
-        this.empty1=new Label("                  ");
+        this.empty1=new Label("             ");
         this.pan.add(this.empty1);
 
+
+        //Voir les places dispo
         this.constr.gridx=0;
         this.constr.gridy=1;
         this.constr.gridwidth=1;
@@ -115,6 +119,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
         this.pan.add(this.button2,this.constr);
 
 
+        //Label qui affiche les places dispo
         this.constr.gridx=2;
         this.constr.gridy=1;
         this.constr.gridwidth=1;
@@ -125,7 +130,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
 
 
 
-        // lISTE DES CONCERTS
+        // Button pour afficher les concerts
         this.constr.gridx=0;
         this.constr.gridy=2;
         this.constr.gridwidth=1;
@@ -140,6 +145,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
 
 
 
+        //Affichage des concerts
         this.constr.gridx=0;
         this.constr.gridy=3;
         this.constr.gridwidth=1;
@@ -152,6 +158,8 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
         this.empty4=new Label();
         this.pan.add(this.empty4);
         this.button=new JButton();
+
+        //Button acheter et vendre place
         this.button.addActionListener(this);
         this.button.setOpaque(false);
         this.button.setContentAreaFilled(false);
@@ -167,9 +175,6 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
         this.pan.add(this.button4,this.constr);
 
 
-
-
-
         this.setContentPane(this.pan);
         this.setVisible(true);
 
@@ -177,8 +182,10 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
     }
 
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
+        //Show the number of tickets remaining
         if(e.getSource().equals(this.button2)){
             String str=this.list1.getSelectedValue().toString();
             String concert=this.list2.getSelectedValue().toString();
@@ -191,10 +198,9 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
                         for(Concert c1: this.l_c){
                             String concert2=c1.getName()+" "+c1.getDate();
                             if(concert2.equals(concert)){
-                                System.out.println(concert2);
-                                System.out.println(concert);
+
                                 nb_ticket="Il reste "+c1.availableTickets()+" disponibles pour ce concert";
-                                System.out.println(nb_ticket);
+
                             }
                         }
                         this.pan.remove(this.l3);
@@ -213,7 +219,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
                         this.constr.gridy=3;
                         this.constr.gridwidth=1;
                         this.constr.gridheight=1;
-                        this.empty2=new Label("                                              ");
+                        this.empty2=new Label("                                                       ");
                         this.pan.add(this.empty2);
                         this.button3=new JButton("Voir la liste des concerts pour reserver un billet ou annuler");
                         this.button3.addActionListener(this);
@@ -226,6 +232,8 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
                }
 
             }
+
+            // Show a list of concert
         } else if (e.getSource().equals(this.button3)) {
 
             List<String> l_concert=new ArrayList<>();
@@ -238,11 +246,11 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
             this.pan.remove(this.button);
             this.pan.remove(this.button4);
             this.pan.remove(this.list3);
-            this.empty3=new Label("                                     ");
+            this.empty3=new Label("                                                         ");
             this.pan.add(this.empty3);
             this.list3=new JList(l_concert.toArray());
             this.pan.add(this.list3);
-            this.empty4=new Label("                                                       ");
+            this.empty4=new Label("                                                                           ");
             this.pan.add(this.empty4);
             this.constr.gridx=0;
             this.constr.gridy=4;
@@ -258,13 +266,15 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
 
             this.pan.repaint();
             this.pan.validate();
+
+            // Reserve a ticket
         } else if (e.getSource().equals(this.button)) {
             String str=this.list1.getSelectedValue().toString();
             String concert=this.list3.getSelectedValue().toString();
-
             for(Club club1: this.l_club){
                 List<Membre> l_membre=club1.getMembers();
                 for(Membre m: l_membre){
+
                         String personne=m.getNom()+" "+m.getPrenom();
                         if(personne.equals(str)){
                             for(Concert c1: this.l_c){
@@ -278,9 +288,8 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
 
             }
 
-
-
         }
+        //Remove a ticket
         else if (e.getSource().equals(this.button4)) {
 
             String str=this.list1.getSelectedValue().toString();
@@ -302,6 +311,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
                 }
 
             }
+            // Show another frame with information on the club of the member selected
         } else if (e.getSource().equals(this.item)) {
             String str=this.list1.getSelectedValue().toString();
 
@@ -315,6 +325,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
+        //displays concerts where a member has purchased at least one ticket
         this.pan.remove(this.l3);
         String str=this.list1.getSelectedValue().toString();
         for(Club club: this.l_club){
@@ -345,7 +356,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
                     this.list2=new JList(l_c.toArray());
                     this.pan.add(this.list2,this.constr);
                     this.pan.remove(this.empty1);
-                    this.empty1=new Label("                           ");
+                    this.empty1=new Label("                                 ");
                     this.pan.add(this.empty1);
                     this.pan.remove(this.button2);
                     this.button2=new JButton("Voir les places disponibles");
@@ -353,7 +364,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
                     this.pan.add(this.button2);
 
                     this.pan.remove(this.empty2);
-                    this.empty2=new Label("                                                        ");
+                    this.empty2=new Label("                                                            ");
                     this.pan.add(this.empty2);
                     this.constr.gridx=0;
                     this.constr.gridy=3;
@@ -380,6 +391,9 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
     }
 
     @Override
+    /**
+     * If there a new concert, this will add it in the list
+     */
     public void newConcertEvent(ConcertEvent concertEvent) {
         if(!this.l_c.contains(concertEvent.getConcert())){
             this.l_c.add(concertEvent.getConcert());
@@ -387,6 +401,9 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
     }
 
     @Override
+    /**
+     * If we remove a concert, this will remove it from the list
+     */
     public void cancelConcertEvent(ConcertEvent concertEvent) {
         if(this.l_c.contains(concertEvent.getConcert())){
             this.l_c.remove(concertEvent.getConcert());

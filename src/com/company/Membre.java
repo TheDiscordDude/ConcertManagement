@@ -11,11 +11,16 @@ public class Membre implements ConcertListener {
     private String prenom;
     private double seuil;
 
+    public double getSeuil() {
+        return seuil;
+    }
+
     private List<Concert> l_concert;
 
     private String available_ticket_str;
 
     private int compteur;
+
 
     public Membre(String nom, String prenom, double seuil) {
         this.nom = nom;
@@ -34,18 +39,34 @@ public class Membre implements ConcertListener {
 
     public Membre(){}
 
+    /**
+     *  This function allow to book a ticket
+     * @param concert
+     * @param club
+     */
     public void reserverBillet(Concert concert, Club club){
         club.reserverBillet(concert);
         maj_concert(concert,"add");
     }
 
+    /**
+     * This function allow to remove a ticket
+     * @param concert
+     * @param club
+     */
     public void annulerBillet(Concert concert, Club club){
         club.annulerBillet(concert);
         maj_concert(concert,"remove");
     }
 
+    /**
+     * This function allow to add or remove a concert from the list of concert for a Member if we buy or cancel a tick
+     * and to check if the personn can or not buy a ticket
+     * @param concert
+     * @param order This param tell to the function if we have to add or remove a concert from the list of concert
+     */
     public void maj_concert(Concert concert,String order){
-        System.out.println(this.available_ticket_str);
+
         if(this.available_ticket_str.equals("0")){
             this.compteur+=1;
         }
@@ -54,17 +75,16 @@ public class Membre implements ConcertListener {
             if(this.compteur>=2){
                 System.out.println("plus de billet");
             }else{
-                System.out.println("ADDD CONCERT");
+
                 this.l_concert.add(concert);
             }
         }else if (order.equals("remove")) {
             if(this.l_concert.isEmpty()){
-                System .out.println("pas de concert");
+
             }else{
 
                 this.compteur=0;
-                System.out.println("REEEEEEEEEEMOVE");
-                System.out.println(this.compteur);
+
                 this.l_concert.remove(concert);
             }
 
@@ -72,16 +92,31 @@ public class Membre implements ConcertListener {
     }
 
     @Override
+
     public void newConcertEvent(ConcertEvent concertEvent) {
-        if(concertEvent.getConcert().getCost() > this.seuil)
+        if(concertEvent.getConcert().getCost() > this.seuil){
             System.out.println("Trop CHER !");
-        else
+
+        }
+        else{
             System.out.println("Je peux y aller !");
+
+        }
+
+
     }
 
-    @Override
-    public void cancelConcertEvent(ConcertEvent concertEvent) {
 
+
+    @Override
+
+    public void cancelConcertEvent(ConcertEvent concertEvent) {
+        while(this.l_concert.contains(concertEvent.getConcert())){
+            this.l_concert.remove(concertEvent.getConcert());
+        }
+        /*if(this.l_concert.contains(concertEvent.getConcert())){
+
+        }*/
     }
 
     public List<Concert> getL_concert() {
@@ -94,9 +129,7 @@ public class Membre implements ConcertListener {
         this.available_ticket_str=""+concertEvent.getConcert().availableTickets();
     }
 
-    public String getAvailable_ticket_str() {
-        return available_ticket_str;
-    }
+
 
     @Override
     public void ticketRemoved(ConcertEvent concertEvent) {

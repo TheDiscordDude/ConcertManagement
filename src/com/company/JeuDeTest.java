@@ -48,7 +48,7 @@ public class JeuDeTest {
         l_c.add(concert3);
         Membre_IHM me1=new Membre_IHM(l_m,b1,l_c);*/
 
-        Membre m1 = new Membre("DASSEUX", "Damien", 4.0);
+        Membre m1 = new Membre("DASSEUX", "Damien", 6.0);
         Membre m2 = new Membre("MALACARNE", "Etienne", 10.0);
 
         Club b1 = new Club("PolyBot");
@@ -73,7 +73,7 @@ public class JeuDeTest {
         Concert concert = null;
         try {
             gestionnaireSalle.reserveRoom(new RoomEvent(new Object(), s1));
-            concert = new Concert("MonConcertCool", Calendar.getInstance().getTime(), 5.0, s1);
+            concert = new Concert("Orelsan ", Calendar.getInstance().getTime(), 5.0, s1);
             b1.addConcert(concert);
 
         } catch (RoomTakenException e) {
@@ -82,7 +82,7 @@ public class JeuDeTest {
 
         try {
             gestionnaireSalle.reserveRoom(new RoomEvent(new Object(), s1));
-            concert = new Concert("MonConcertCool2", Calendar.getInstance().getTime(), 5.0, s1);
+            concert = new Concert("Twenty One Pilots", Calendar.getInstance().getTime(), 5.0, s1);
             b1.addConcert(concert);
 
         } catch (RoomTakenException e) {
@@ -92,7 +92,7 @@ public class JeuDeTest {
         Concert concert2 = null;
         try {
             gestionnaireSalle.reserveRoom(new RoomEvent(new Object(), s2));
-            concert2 = new Concert("MoinsCool", Calendar.getInstance().getTime(), 5.0, s2);
+            concert2 = new Concert("Eminem ", Calendar.getInstance().getTime(), 15.0, s2);
             b1.addConcert(concert2);
         } catch (RoomTakenException e) {
             System.out.println("Cette salle est déja utilisé");
