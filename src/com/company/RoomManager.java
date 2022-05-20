@@ -7,7 +7,11 @@ import com.company.listeners.RoomListener;
 import java.util.ArrayList;
 
 public class RoomManager implements RoomListener {
+
+    // This list will contain all the UNOCCUPIED rooms
     private ArrayList<Room> rooms;
+
+    // This list will contain all the reserved rooms
     private ArrayList<Room> reservedRooms;
 
     public RoomManager(ArrayList<Room> rooms) {
@@ -19,6 +23,10 @@ public class RoomManager implements RoomListener {
         return rooms;
     }
 
+    /**
+     * This method add the new room as an available room
+     * @param r represents the room we want to add to the list
+     */
     public void addRoom(Room r){
         if(!this.rooms.contains(r) && !this.reservedRooms.contains(r)){
             this.rooms.add(r);
@@ -26,19 +34,19 @@ public class RoomManager implements RoomListener {
     }
 
     @Override
-    public void reserveRoom(RoomEvent salleEvent) throws RoomTakenException {
-        if(this.rooms.contains(salleEvent.getRoom())){
-            this.rooms.remove(salleEvent.getRoom());
-            this.reservedRooms.add(salleEvent.getRoom());
+    public void reserveRoom(RoomEvent roomEvent) throws RoomTakenException {
+        if(this.rooms.contains(roomEvent.getRoom())){
+            this.rooms.remove(roomEvent.getRoom());
+            this.reservedRooms.add(roomEvent.getRoom());
         }
         else {
-            throw new RoomTakenException("The room : " + salleEvent + "is already taken");
+            throw new RoomTakenException("The room : " + roomEvent + "is already taken");
         }
     }
 
     @Override
-    public void roomAvailable(RoomEvent salleEvent) {
-        this.reservedRooms.remove(salleEvent.getRoom());
-        this.rooms.add(salleEvent.getRoom());
+    public void roomAvailable(RoomEvent roomEvent) {
+        this.reservedRooms.remove(roomEvent.getRoom());
+        this.rooms.add(roomEvent.getRoom());
     }
 }

@@ -100,20 +100,23 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
     }
 
     /**
-     * When the button is pressed, this method is called.
+     * When the "Create" button is pressed, this method is called.
      * It checks the fields and then creates the Concert and sends it
      * @param e the event to be processed
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        String concertName = this.nameField.getText();
+        // We check each and every input to see if they are correctly filed
 
+        // CHECKING THE CONCERT NAME FIELD
+        String concertName = this.nameField.getText();
         // Checking if is the name is blank
         if(concertName.isBlank()){
             FormPopups.fieldMustNotBeBlank(this, "Concert name");
             return;
         }
 
+        // CHECKING THE CONCERT DATE FIELD
         String dateString = this.dateField.getText();
         Date date ;
         try {
@@ -126,9 +129,11 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
             }
         } catch (ParseException ex) {
             FormPopups.showError(this, "Date Error", "Date is in wrong format");
+            ex.printStackTrace();
             return;
         }
 
+        // CHECKING THE COST FIELD
         // Check if the costField is blank
         if(this.costField.getText().isBlank()){
             FormPopups.fieldMustNotBeBlank(this, "Cost");
@@ -137,16 +142,24 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
 
         double cost = Double.parseDouble(this.costField.getText());
 
-        Room room = (Room) this.roomField.getSelectedItem();
 
+        // CHECKING THE ROOM COMBOBOX
+
+        Room room = (Room) this.roomField.getSelectedItem();
+        // Here we check if the room is already reserved
         try {
             this.manager.reserveRoom(new RoomEvent(this, room));
         } catch (RoomTakenException ex) {
-            throw new RuntimeException(ex);
+            FormPopups.showError(this, "Room Error", "This room is already reserved");
+            ex.printStackTrace();
+            return;
         }
+
+        // We update the room list
         this.comboBoxContent.removeAllElements();
         this.comboBoxContent.addAll(this.manager.getRooms());
 
+        // We then create the concert and send the event
         Concert newConcert = new Concert(concertName, date, cost, room);
         this.club.addConcert(newConcert);
         FormPopups.success(this, "Concert", "Concert ajouté");

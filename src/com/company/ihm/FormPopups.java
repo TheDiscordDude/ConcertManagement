@@ -3,6 +3,9 @@ package com.company.ihm;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * A class that contains only static methods displaying all kind of popups
+ */
 public class FormPopups {
     /**
      * Informs the user that a field is blank
@@ -11,7 +14,7 @@ public class FormPopups {
      * @param fieldName the name of the field
      */
     static void fieldMustNotBeBlank(Component source, String fieldName){
-        showError(null, String.format("%1$s Error", fieldName),String.format("%1$s field must not be blank", fieldName));
+        showError(source, String.format("%1$s Error", fieldName),String.format("%1$s field must not be blank", fieldName));
     }
 
     /**
@@ -36,7 +39,7 @@ public class FormPopups {
      * @param content The content of the popup window
      */
     static void success(Component source, String title, String content){
-        JOptionPane.showMessageDialog(null,
+        JOptionPane.showMessageDialog(source,
                 content,
                 title,
                 JOptionPane.INFORMATION_MESSAGE);
