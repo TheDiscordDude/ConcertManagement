@@ -129,7 +129,7 @@ public class ClubInfosIHM extends JPanel implements ListSelectionListener, Conce
     public void ticketRemoved(ConcertEvent concertEvent) {
         for(Component component : this.getComponents()){
             if(component instanceof ConcertListener){
-                ((ConcertListener)component).newConcertEvent(concertEvent);
+                ((ConcertListener)component).ticketRemoved(concertEvent);
             }
         }
     }

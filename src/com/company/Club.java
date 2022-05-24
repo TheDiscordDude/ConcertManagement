@@ -68,7 +68,7 @@ public class Club {
             if(c.getConcert().equals(concert)){
                 try{
                     concert.annulerReservation();
-                    for(ConcertListener cl : this.members){
+                    for(ConcertListener cl : this.subscribers){
                         cl.ticketRemoved(c);
                     }
                 } catch (EmptyRoomException e){
