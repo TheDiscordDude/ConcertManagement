@@ -3,7 +3,6 @@ package com.company.ihm;
 import com.company.Concert;
 import com.company.RoomManager;
 import com.company.Room;
-import com.company.events.RoomEvent;
 import com.company.exceptions.RoomTakenException;
 import com.company.ui_elements.JDateField;
 import com.company.Club;
@@ -80,7 +79,7 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
         this.add(this.costField, this.constraints);
 
 
-        JLabel salleLabel = new JLabel("La salle su concert");
+        JLabel salleLabel = new JLabel("La salle du concert");
         this.constraints.gridy ++;
         this.add(salleLabel, this.constraints);
 
@@ -148,7 +147,7 @@ public class ConcertFormIHM extends JPanel implements ActionListener {
         Room room = (Room) this.roomField.getSelectedItem();
         // Here we check if the room is already reserved
         try {
-            this.manager.reserveRoom(new RoomEvent(this, room));
+            this.manager.reserveRoom(room);
         } catch (RoomTakenException ex) {
             FormPopups.showError(this, "Room Error", "This room is already reserved");
             ex.printStackTrace();

@@ -4,7 +4,6 @@ import com.company.Club;
 import com.company.Membre;
 import com.company.RoomManager;
 import com.company.events.ConcertEvent;
-import com.company.events.RoomEvent;
 import com.company.listeners.ConcertListener;
 
 import javax.swing.*;
@@ -262,7 +261,7 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
     @Override
     public void canceledConcertEvent(ConcertEvent concertEvent) {
 
-        this.manager.roomAvailable(new RoomEvent(this, concertEvent.getConcert().getRoom()));
+        this.manager.freeTheRoom(concertEvent.getConcert().getRoom());
 
         for(Component c : this.getContentPane().getComponents()){
             if(c instanceof ConcertListener){

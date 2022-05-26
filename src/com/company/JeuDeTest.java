@@ -2,7 +2,6 @@ package com.company;
 
 import com.company.ihm.ClubIHM;
 import com.company.ihm.Membre_IHM;
-import com.company.events.RoomEvent;
 import com.company.exceptions.RoomTakenException;
 import com.company.listeners.ConcertListener;
 
@@ -72,7 +71,7 @@ public class JeuDeTest {
 
         Concert concert = null;
         try {
-            gestionnaireSalle.reserveRoom(new RoomEvent(new Object(), s1));
+            gestionnaireSalle.reserveRoom(s1);
             concert = new Concert("Orelsan ", Calendar.getInstance().getTime(), 5.0, s1);
             b1.addConcert(concert);
 
@@ -81,7 +80,7 @@ public class JeuDeTest {
         }
 
         try {
-            gestionnaireSalle.reserveRoom(new RoomEvent(new Object(), s1));
+            gestionnaireSalle.reserveRoom(s1);
             concert = new Concert("Twenty One Pilots", Calendar.getInstance().getTime(), 5.0, s1);
             b1.addConcert(concert);
 
@@ -91,7 +90,7 @@ public class JeuDeTest {
 
         Concert concert2 = null;
         try {
-            gestionnaireSalle.reserveRoom(new RoomEvent(new Object(), s2));
+            gestionnaireSalle.reserveRoom(s2);
             concert2 = new Concert("Eminem ", Calendar.getInstance().getTime(), 15.0, s2);
             b1.addConcert(concert2);
         } catch (RoomTakenException e) {
