@@ -20,7 +20,7 @@ public class MembreGestionClub_IHM extends JFrame implements ActionListener, Lis
     private JPanel pan = new JPanel();
     private List<Club> l_club;
 
-    private JList<String> list1;
+    private JList list1;
     private JList list2;
 
     private Label l1;
