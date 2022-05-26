@@ -15,7 +15,7 @@ public interface ConcertListener {
     /** It is called when a concert is canceled
      * @param concertEvent The concert we are canceling
      */
-    void cancelConcertEvent(ConcertEvent concertEvent);
+    void canceledConcertEvent(ConcertEvent concertEvent);
 
     /**
      * Is called when someone gets a ticket for a concert

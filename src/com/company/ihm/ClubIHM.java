@@ -260,13 +260,13 @@ public class ClubIHM extends JFrame implements ActionListener, ConcertListener {
      * @param concertEvent The concert we are canceling
      */
     @Override
-    public void cancelConcertEvent(ConcertEvent concertEvent) {
+    public void canceledConcertEvent(ConcertEvent concertEvent) {
 
         this.manager.roomAvailable(new RoomEvent(this, concertEvent.getConcert().getRoom()));
 
         for(Component c : this.getContentPane().getComponents()){
             if(c instanceof ConcertListener){
-                ((ConcertListener)c).cancelConcertEvent(concertEvent);
+                ((ConcertListener)c).canceledConcertEvent(concertEvent);
             }
         }
     }

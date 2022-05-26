@@ -139,7 +139,7 @@ public class Club {
         this.concertEvents.remove(concert);
 
         for(ConcertListener c : this.subscribers){
-            c.cancelConcertEvent(concert);
+            c.canceledConcertEvent(concert);
         }
     }
 

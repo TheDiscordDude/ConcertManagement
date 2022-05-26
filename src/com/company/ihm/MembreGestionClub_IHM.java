@@ -20,7 +20,7 @@ public class MembreGestionClub_IHM extends JFrame implements ActionListener, Lis
     private JPanel pan = new JPanel();
     private List<Club> l_club;
 
-    private JList list1;
+    private JList<String> list1;
     private JList list2;
 
     private Label l1;
@@ -41,13 +41,13 @@ public class MembreGestionClub_IHM extends JFrame implements ActionListener, Lis
         this.setSize(750, 500);
 
         this.l_club=list_club;
-        String personne="";
+        String person;
         Club club_m=new Club();
         for(Club c:this.l_club){
             List<Membre> l_m=c.getMembers();
             for(Membre m: l_m){
-                personne=m.getNom()+" "+m.getPrenom();
-                if(personne.equals(membre)){
+                person=m.getNom()+" "+m.getPrenom();
+                if(person.equals(membre)){
                     club_m=c;
                 }
             }
@@ -76,7 +76,7 @@ public class MembreGestionClub_IHM extends JFrame implements ActionListener, Lis
     }
 
     @Override
-    public void cancelConcertEvent(ConcertEvent concertEvent) {
+    public void canceledConcertEvent(ConcertEvent concertEvent) {
 
     }
 

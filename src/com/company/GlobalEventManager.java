@@ -36,9 +36,9 @@ public class GlobalEventManager implements ConcertListener {
      * @param concertEvent The concert we are canceling
      */
     @Override
-    public void cancelConcertEvent(ConcertEvent concertEvent) {
+    public void canceledConcertEvent(ConcertEvent concertEvent) {
         for(ConcertListener c : this.listeners){
-            c.cancelConcertEvent(concertEvent);
+            c.canceledConcertEvent(concertEvent);
         }
     }
 

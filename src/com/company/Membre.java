@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Membre implements ConcertListener {
-    private String nom;
-    private String prenom;
-    private double seuil;
+    private final String nom;
+    private final String prenom;
+    private final double seuil;
 
     public double getSeuil() {
         return seuil;
@@ -37,12 +37,11 @@ public class Membre implements ConcertListener {
         return prenom;
     }
 
-    public Membre(){}
-
     /**
      *  This function allow to book a ticket
-     * @param concert
-     * @param club
+     *
+     * @param concert The current concert
+     * @param club  The current club
      */
     public void reserverBillet(Concert concert, Club club){
         club.reserverBillet(concert);
@@ -51,8 +50,8 @@ public class Membre implements ConcertListener {
 
     /**
      * This function allow to remove a ticket
-     * @param concert
-     * @param club
+     * @param concert the current concert
+     * @param club The current club
      */
     public void annulerBillet(Concert concert, Club club){
         club.annulerBillet(concert);
@@ -62,7 +61,7 @@ public class Membre implements ConcertListener {
     /**
      * This function allow to add or remove a concert from the list of concert for a Member if we buy or cancel a tick
      * and to check if the personn can or not buy a ticket
-     * @param concert
+     * @param concert The current concert
      * @param order This param tell to the function if we have to add or remove a concert from the list of concert
      */
     public void maj_concert(Concert concert,String order){
@@ -79,12 +78,8 @@ public class Membre implements ConcertListener {
                 this.l_concert.add(concert);
             }
         }else if (order.equals("remove")) {
-            if(this.l_concert.isEmpty()){
-
-            }else{
-
+            if(!this.l_concert.isEmpty()){
                 this.compteur=0;
-
                 this.l_concert.remove(concert);
             }
 
@@ -110,13 +105,10 @@ public class Membre implements ConcertListener {
 
     @Override
 
-    public void cancelConcertEvent(ConcertEvent concertEvent) {
+    public void canceledConcertEvent(ConcertEvent concertEvent) {
         while(this.l_concert.contains(concertEvent.getConcert())){
             this.l_concert.remove(concertEvent.getConcert());
         }
-        /*if(this.l_concert.contains(concertEvent.getConcert())){
-
-        }*/
     }
 
     public List<Concert> getL_concert() {

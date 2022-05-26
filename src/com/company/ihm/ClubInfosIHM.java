@@ -96,7 +96,7 @@ public class ClubInfosIHM extends JPanel implements ListSelectionListener, Conce
      * @param concertEvent The concert we are canceling
      */
     @Override
-    public void cancelConcertEvent(ConcertEvent concertEvent) {
+    public void canceledConcertEvent(ConcertEvent concertEvent) {
         this.concertEventDefaultListModel.removeElement(concertEvent);
 
 

@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ConcertInfosIHM extends JPanel implements ConcertListener {
-    private Concert concert;
+    private final Concert concert;
     private JLabel ticketLabel;
     public ConcertInfosIHM(Concert concert){
         this.concert = concert;
@@ -41,7 +41,7 @@ public class ConcertInfosIHM extends JPanel implements ConcertListener {
     }
 
     @Override
-    public void cancelConcertEvent(ConcertEvent concertEvent) {
+    public void canceledConcertEvent(ConcertEvent concertEvent) {
 
     }
 

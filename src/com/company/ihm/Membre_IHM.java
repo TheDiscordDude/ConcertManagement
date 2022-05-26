@@ -6,6 +6,7 @@ import com.company.Membre;
 import com.company.events.ConcertEvent;
 import com.company.listeners.ConcertListener;
 
+import javax.print.attribute.standard.JobMessageFromOperator;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -19,34 +20,34 @@ import java.util.List;
 
 
 public class Membre_IHM extends JFrame implements ActionListener, ListSelectionListener, ConcertListener {
-    private int compt=0;
     private JPanel pan = new JPanel();
     private Label l1;
-    private Label l2;
     private Label l3;
 
     private Label empty1;
     private Label empty2;
     private Label empty3;
     private Label empty4;
-    private TextArea area;
     private JButton button;
     private JButton button2;
     private JButton button3;
     private JButton button4;
     private JMenu menu;
-    private  JMenuItem item;
+    private  JMenuItem clubInfosMenu;
+    private final JMenuItem createMember;
     private JMenuBar menu_bar;
     private JList list1;
     private JList list2;
     private JList list3;
-    private List<Membre> l_membre;
     private List<Concert> l_c;
     private List<Club> l_club;
-    private Club cb1;
+    private final DefaultListModel<String> memberList;
+
     private GridBagConstraints constr;
 
     public Membre_IHM(List<Club> cb1,List<Concert> l_c){
+        this.setTitle("User - Concert Management");
+        this.setSize(750, 500);
 
         this.l_club=cb1;
         this.l_c=l_c;
@@ -58,8 +59,6 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
         this.constr.insets.left = 5;
         this.constr.insets.right = 5;
 
-        this.setTitle("Animation");
-        this.setSize(750, 500);
 
         // CHOIX DES MEMBRES
         this.constr.gridx=0;
@@ -67,10 +66,13 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
         this.constr.gridwidth=1;
         this.constr.gridheight=1;
         this.menu_bar = new JMenuBar();
-        this.menu=new JMenu("Informations du club du membre ");
-        this.item=new JMenuItem("Voir les informations");
-        this.item.addActionListener(this);
-        this.menu.add(this.item);
+        this.menu=new JMenu("Membre");
+        this.createMember = new JMenuItem("Créer un utilisateur");
+        createMember.addActionListener(this);
+        this.menu.add(createMember);
+        this.clubInfosMenu =new JMenuItem("Voir les informations");
+        this.clubInfosMenu.addActionListener(this);
+        this.menu.add(this.clubInfosMenu);
         this.menu_bar.add(this.menu);
         this.setJMenuBar(this.menu_bar);
         List<String> l_name=new ArrayList<>();
@@ -82,7 +84,10 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
         }
 
 
-        this.list1=new JList(l_name.toArray());
+        this.list1 =new JList<String>();
+        this.memberList = new DefaultListModel<>();
+        memberList.addAll(l_name);
+        this.list1.setModel(memberList);
         this.list1.addListSelectionListener(this);
         this.pan.add(this.list1,this.constr);
 
@@ -91,8 +96,6 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
         //lISTES DES BILLETS DE LA PERSONNE
         this.constr.gridx=1;
         this.constr.gridy=0;
-        this.constr.gridwidth=1;
-        this.constr.gridheight=1;
 
         this.l1=new Label("Les billets : ");
         this.pan.add(this.l1,this.constr);
@@ -100,8 +103,6 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
 
         this.constr.gridx=2;
         this.constr.gridy=0;
-        this.constr.gridwidth=2;
-        this.constr.gridheight=1;
 
         this.list2=new JList();
         this.pan.add(this.list2,this.constr);
@@ -259,7 +260,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
             this.pan.add(this.button,this.constr);
             this.constr.gridx=1;
             this.constr.gridy=4;
-            this.button4=new JButton("Vendre un billet");
+            this.button4=new JButton("Annuler un billet");
             this.button4.addActionListener(this);
             this.pan.add(this.button4,this.constr);
 
@@ -312,11 +313,48 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
 
             }
             // Show another frame with information on the club of the member selected
-        } else if (e.getSource().equals(this.item)) {
+        } else if (e.getSource().equals(this.clubInfosMenu)) {
             String str=this.list1.getSelectedValue().toString();
 
             MembreGestionClub_IHM m_gestion=new MembreGestionClub_IHM(this.l_club,str);
+        } else if (e.getSource().equals(this.createMember)){
 
+            JTextField lastname = new JTextField("           ");
+            JTextField firstname = new JTextField("          ");
+            JSpinner cost = new JSpinner();
+            JComboBox<Club> clubs = new JComboBox<>();
+            for (Club c : this.l_club){
+                clubs.addItem(c);
+            }
+
+            JPanel form = new JPanel();
+            form.add(new JLabel("Quel est votre nom ?"));
+            form.add(lastname);
+            form.add(Box.createHorizontalStrut(5));
+            form.add(new JLabel("Quel est votre prénom ?"));
+            form.add(firstname);
+            form.add(Box.createHorizontalStrut(5));
+            form.add(new JLabel("Quel est votre seuil ?"));
+            form.add(cost);
+            form.add(Box.createHorizontalStrut(5));
+
+            form.add(new JLabel("Quel club voulez vous suivre?"));
+            form.add(clubs);
+
+
+            int result = JOptionPane.showConfirmDialog(
+                    this,
+                    form,
+                    "Créer un utilisateur",
+                    JOptionPane.OK_CANCEL_OPTION
+            );
+            if(result == JOptionPane.OK_OPTION){
+
+                Membre newMember = new Membre(lastname.getText().strip(), firstname.getText().strip(), cost.getX());
+                Club c = (Club) clubs.getSelectedItem();
+                c.addMembre(newMember);
+                this.memberList.addElement(newMember.getNom() + " " + newMember.getPrenom());
+            }
 
         }
 
@@ -404,7 +442,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
     /**
      * If we remove a concert, this will remove it from the list
      */
-    public void cancelConcertEvent(ConcertEvent concertEvent) {
+    public void canceledConcertEvent(ConcertEvent concertEvent) {
         if(this.l_c.contains(concertEvent.getConcert())){
             this.l_c.remove(concertEvent.getConcert());
         }
