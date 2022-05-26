@@ -40,7 +40,7 @@ public class Membre_IHM extends JFrame implements ActionListener, ListSelectionL
     private JList list1;
     private JList list2;
     private JList list3;
-    private List<Membre> l_membre;
+
     private List<Concert> l_c;
     private List<Club> l_club;
     private Club cb1;

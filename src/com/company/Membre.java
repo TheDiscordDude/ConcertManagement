@@ -117,6 +117,7 @@ public class Membre implements ConcertListener {
         /*if(this.l_concert.contains(concertEvent.getConcert())){
 
         }*/
+        
     }
 
     public List<Concert> getL_concert() {
